@@ -1,6 +1,6 @@
 {
   "name": "e-invoice-malaysia-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Unofficial MCP server for Malaysia's LHDN MyInvois e-invoice API — validate TINs, draft and submit e-invoices with a two-step confirmation flow. Not affiliated with or endorsed by LHDN.",
   "type": "module",
   "bin": {
@@ -18,14 +18,23 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "skill.md",
+    "skills",
+    "claude",
+    "claude-code",
+    "hook",
+    "free",
+    "setup",
+    "configure",
     "myinvois",
     "e-invoice",
     "einvois",
+    "invoice",
     "lhdn",
     "malaysia",
     "tax"
   ],
-  "license": "MIT",
+  "license": "WTFPL",
   "author": "Sean Lon ",
   "repository": {
     "type": "git",

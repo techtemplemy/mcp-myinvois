@@ -24,6 +24,7 @@
     <h3>🤖 Fastest path — say this to Claude</h3>
     <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
     <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the myinvois skill. Here's my invoice PDF — turn it into a MyInvois e-invoice: extract the buyer and line items, validate the buyer TIN, show me a summary for approval BEFORE submitting, then give me the validation link and a QR image.</div>
+    <button class="add" data-skill="submit" type="button">📋 copy full skill.md for this journey — works with any AI, not just Claude</button>
   </div>
 <!-- ============ 10 ============ -->
   <section class="step" data-step="10">
@@ -85,6 +86,7 @@ node skills/myinvois/scripts/myinvois.mjs submission <span class="y">&lt;submiss
     <span>next: <a href="guide-check.html">④ check invoices</a> →</span>
   </footer>
 </div>
+<script src="skill-snippets.js"></script>
 <script src="guide.js"></script>
 <script>
 const $=id=>document.getElementById(id);

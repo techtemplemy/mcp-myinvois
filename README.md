@@ -16,8 +16,8 @@ sending the result to your customer.
 
 ```mermaid
 flowchart TD
-    A{"Do you have MyInvois<br/>API keys?"} -->|no| B["① Get access<br/>guided portal walkthrough"]
-    A -->|yes| C["② Configure once<br/>your company · your clients"]
+    A{"Do you have MyInvois<br/>API keys?"} -->|no| B["① Get access<br/>one-time only · guided walkthrough"]
+    A -->|yes| C["② Configure &amp; setup<br/>one-time only · company &amp; clients"]
     B --> C
     C --> D{"Day-to-day"}
     D --> E["③ Submit an e-invoice<br/>new client → purchase → send"]
@@ -32,7 +32,20 @@ flowchart TD
     class B,C,E,F,G journey
     class H result
     linkStyle default stroke:#1B2A4A,stroke-width:2px
+    click B "https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-access.html" "Get access — guided walkthrough"
+    click C "https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-configure.html" "Configure & setup"
+    click E "https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-submit.html" "Submit an e-invoice"
+    click F "https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-check.html" "Check invoices"
+    click G "https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-selfbill.html" "Record a supplier bill"
 ```
+
+**Open a journey:**
+[① get access](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-access.html) ·
+[② configure & setup](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-configure.html) ·
+[③ submit](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-submit.html) ·
+[④ check](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-check.html) ·
+[⑤ self-billed](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-selfbill.html)
+*(chart nodes are clickable in editors that allow it; GitHub disables in-chart links, so use these)*
 
 Each step below has a **copy-paste prompt for Claude** and a no-AI fallback.
 Prefer clicking through screens? The **[visual guide hub](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html)**
@@ -40,7 +53,7 @@ has one page per journey ①–⑤, each opening with the same copy-paste Claude
 
 ---
 
-## ① Get access — you have no API keys yet
+## ① Get access — you have no API keys yet *(one-time only)*
 
 > 💬 **Say to Claude:** *"Use the myinvois skill. I'm new to Malaysia e-invoicing —
 > get me MyInvois sandbox API access for my company, step by step. Open the
@@ -54,7 +67,7 @@ with a live token call.
 
 *No AI?* Follow the [get-access page](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-access.html) — mock portal screens plus a `.env` generator.
 
-## ② Configure once — you have keys
+## ② Configure & setup — you have keys *(one-time only)*
 
 > 💬 **Say to Claude:** *"Use the myinvois skill. I already have my MyInvois
 > client ID and secret — set up my credentials, my company profile, and my
@@ -213,4 +226,4 @@ classification…).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[WTFPL](LICENSE) — do what you want with it.

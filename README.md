@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/logo.png" alt="Unofficial MCP & SKILL.md — LHDN Malaysia einvoice. 1. Setup, 2. Generate, 3. Manage" width="440">
+</p>
+
 # Malaysia e-Invoice (MyInvois) — for humans and their AI
 
 Talk to Claude, get a validated LHDN e-invoice. This repo gives your AI the
@@ -20,6 +24,14 @@ flowchart TD
     D --> F["④ Check invoices<br/>status · history · cancel"]
     D --> G["⑤ Record a supplier bill<br/>self-billed, foreign vendors"]
     E --> H["📧 Email PDF + QR<br/>to your client"]
+
+    classDef ask fill:#F6C915,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+    classDef journey fill:#1B2A4A,stroke:#1B2A4A,color:#FAF9F5
+    classDef result fill:#FAF9F5,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+    class A,D ask
+    class B,C,E,F,G journey
+    class H result
+    linkStyle default stroke:#1B2A4A,stroke-width:2px
 ```
 
 Each step below has a **copy-paste prompt for Claude** and a no-AI fallback.
@@ -96,6 +108,48 @@ The vendor goes in as supplier (generic TIN `EI00000000030`), your company as
 buyer, type 11 — same confirm-before-submit flow.
 
 ---
+
+## How it's wired
+
+Three frontends, one shared core, everything on your machine — the only thing
+that ever leaves is the HTTPS call to LHDN:
+
+```mermaid
+flowchart LR
+    subgraph yours["Your machine — nothing else sees your data"]
+        direction LR
+        U["You + your AI<br/>Claude Code · Desktop · Cursor"]
+        SK["Claude skill<br/>SKILL.md + zero-dep CLI"]
+        MCP["MCP server<br/>npx e-invoice-malaysia-mcp"]
+        WEB["static pages<br/>guide · invoice maker"]
+        LIB["shared core<br/>auth · UBL builder · API client"]
+        CFG[("~/.myinvois.env<br/>profile · client book")]
+        U --> SK
+        U --> MCP
+        U --> WEB
+        SK --> LIB
+        MCP --> LIB
+        CFG -.-> LIB
+    end
+    LIB ==>|HTTPS| LHDN["LHDN MyInvois API<br/>sandbox → prod"]
+    LHDN --> OUT["✓ validated e-invoice<br/>share link + QR → email your client"]
+
+    classDef ask fill:#F6C915,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+    classDef comp fill:#1B2A4A,stroke:#1B2A4A,color:#FAF9F5
+    classDef store fill:#FAF9F5,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+    classDef gov fill:#C0321C,stroke:#C0321C,color:#FAF9F5
+    class U ask
+    class SK,MCP,WEB,LIB comp
+    class CFG,OUT store
+    class LHDN gov
+    style yours fill:#FAF9F5,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+    linkStyle default stroke:#1B2A4A,stroke-width:2px
+```
+
+Safety is structural, not polite: submissions are a two-step
+`draft_invoice` → `confirm_submission` with a one-time token, sandbox is the
+default environment, and the skill/MCP always show you a summary before
+anything reaches LHDN.
 
 ## Install
 

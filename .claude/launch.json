@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "docs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["docs/serve.mjs", "8642"],
+      "port": 8642
+    }
+  ]
+}

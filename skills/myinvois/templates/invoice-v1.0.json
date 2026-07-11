@@ -1,0 +1,154 @@
+{
+  "_D": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+  "_A": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+  "_B": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+  "Invoice": [
+    {
+      "ID": [{ "_": "INV-2026-0001" }],
+      "IssueDate": [{ "_": "2026-07-11" }],
+      "IssueTime": [{ "_": "01:00:00Z" }],
+      "InvoiceTypeCode": [{ "_": "01", "listVersionID": "1.0" }],
+      "DocumentCurrencyCode": [{ "_": "MYR" }],
+      "AccountingSupplierParty": [
+        {
+          "Party": [
+            {
+              "IndustryClassificationCode": [{ "_": "SUPPLIER_MSIC_5DIGIT", "name": "SUPPLIER_BUSINESS_ACTIVITY_DESC" }],
+              "PartyIdentification": [
+                { "ID": [{ "_": "SUPPLIER_TIN", "schemeID": "TIN" }] },
+                { "ID": [{ "_": "SUPPLIER_BRN", "schemeID": "BRN" }] },
+                { "ID": [{ "_": "NA", "schemeID": "SST" }] },
+                { "ID": [{ "_": "NA", "schemeID": "TTX" }] }
+              ],
+              "PostalAddress": [
+                {
+                  "CityName": [{ "_": "Kuala Lumpur" }],
+                  "PostalZone": [{ "_": "50000" }],
+                  "CountrySubentityCode": [{ "_": "14" }],
+                  "AddressLine": [
+                    { "Line": [{ "_": "SUPPLIER_ADDRESS_LINE_1" }] }
+                  ],
+                  "Country": [
+                    { "IdentificationCode": [{ "_": "MYS", "listID": "ISO3166-1", "listAgencyID": "6" }] }
+                  ]
+                }
+              ],
+              "PartyLegalEntity": [
+                { "RegistrationName": [{ "_": "SUPPLIER_COMPANY_NAME SDN BHD" }] }
+              ],
+              "Contact": [
+                {
+                  "Telephone": [{ "_": "+60123456789" }],
+                  "ElectronicMail": [{ "_": "supplier@example.com" }]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "AccountingCustomerParty": [
+        {
+          "Party": [
+            {
+              "PartyIdentification": [
+                { "ID": [{ "_": "BUYER_TIN", "schemeID": "TIN" }] },
+                { "ID": [{ "_": "BUYER_BRN_OR_NRIC", "schemeID": "BRN" }] },
+                { "ID": [{ "_": "NA", "schemeID": "SST" }] },
+                { "ID": [{ "_": "NA", "schemeID": "TTX" }] }
+              ],
+              "PostalAddress": [
+                {
+                  "CityName": [{ "_": "Kuala Lumpur" }],
+                  "PostalZone": [{ "_": "50000" }],
+                  "CountrySubentityCode": [{ "_": "14" }],
+                  "AddressLine": [
+                    { "Line": [{ "_": "BUYER_ADDRESS_LINE_1" }] }
+                  ],
+                  "Country": [
+                    { "IdentificationCode": [{ "_": "MYS", "listID": "ISO3166-1", "listAgencyID": "6" }] }
+                  ]
+                }
+              ],
+              "PartyLegalEntity": [
+                { "RegistrationName": [{ "_": "BUYER_NAME" }] }
+              ],
+              "Contact": [
+                {
+                  "Telephone": [{ "_": "+60198765432" }],
+                  "ElectronicMail": [{ "_": "buyer@example.com" }]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "TaxTotal": [
+        {
+          "TaxAmount": [{ "_": 0, "currencyID": "MYR" }],
+          "TaxSubtotal": [
+            {
+              "TaxableAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+              "TaxAmount": [{ "_": 0, "currencyID": "MYR" }],
+              "TaxCategory": [
+                {
+                  "ID": [{ "_": "06" }],
+                  "TaxScheme": [
+                    { "ID": [{ "_": "OTH", "schemeID": "UN/ECE 5153", "schemeAgencyID": "6" }] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "LegalMonetaryTotal": [
+        {
+          "LineExtensionAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+          "TaxExclusiveAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+          "TaxInclusiveAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+          "PayableAmount": [{ "_": 100.0, "currencyID": "MYR" }]
+        }
+      ],
+      "InvoiceLine": [
+        {
+          "ID": [{ "_": "1" }],
+          "InvoicedQuantity": [{ "_": 1, "unitCode": "C62" }],
+          "LineExtensionAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+          "TaxTotal": [
+            {
+              "TaxAmount": [{ "_": 0, "currencyID": "MYR" }],
+              "TaxSubtotal": [
+                {
+                  "TaxableAmount": [{ "_": 100.0, "currencyID": "MYR" }],
+                  "TaxAmount": [{ "_": 0, "currencyID": "MYR" }],
+                  "TaxCategory": [
+                    {
+                      "ID": [{ "_": "06" }],
+                      "TaxScheme": [
+                        { "ID": [{ "_": "OTH", "schemeID": "UN/ECE 5153", "schemeAgencyID": "6" }] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Item": [
+            {
+              "CommodityClassification": [
+                { "ItemClassificationCode": [{ "_": "022", "listID": "CLASS" }] }
+              ],
+              "Description": [{ "_": "ITEM_DESCRIPTION" }]
+            }
+          ],
+          "Price": [
+            { "PriceAmount": [{ "_": 100.0, "currencyID": "MYR" }] }
+          ],
+          "ItemPriceExtension": [
+            { "Amount": [{ "_": 100.0, "currencyID": "MYR" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

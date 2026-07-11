@@ -1,0 +1,42 @@
+{
+  "name": "myinvois-mcp",
+  "version": "0.1.0",
+  "description": "Unofficial MCP server for Malaysia's LHDN MyInvois e-invoice API — validate TINs, draft and submit e-invoices with a two-step confirmation flow. Not affiliated with or endorsed by LHDN.",
+  "type": "module",
+  "bin": {
+    "myinvois-mcp": "./mcp/server.mjs"
+  },
+  "files": [
+    "mcp",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "myinvois",
+    "e-invoice",
+    "einvois",
+    "lhdn",
+    "malaysia",
+    "tax"
+  ],
+  "license": "MIT",
+  "author": "Sean Lon (SUARIFY SDN. BHD.)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techtemplemy/e-invoice-malaysia-mcp.git"
+  },
+  "homepage": "https://github.com/techtemplemy/e-invoice-malaysia-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/techtemplemy/e-invoice-malaysia-mcp/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  }
+}

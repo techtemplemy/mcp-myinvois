@@ -133,6 +133,20 @@ a{color:var(--chop);text-underline-offset:3px}
 .gen input:focus,.gen select:focus{outline:3px solid var(--hi);outline-offset:-1px}
 .gen .full{grid-column:1/-1}
 
+/* ---------- phase banners ---------- */
+.phase{margin:40px 0 0;padding:8px 0;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.phase .p-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chop);white-space:nowrap}
+.phase .p-title{font-family:var(--disp);font-weight:700;font-size:17px}
+.req,.opt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;margin-right:8px}
+.req{background:var(--chop-soft);color:var(--chop)}
+.opt{background:var(--desk);color:var(--ink-soft)}
+ul.check{list-style:none;margin:0 0 12px}
+ul.check li{margin-bottom:7px;color:var(--ink-soft)}
+.gen button.add{background:none;border:1.5px dashed var(--ink);color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:7px 14px;cursor:pointer;margin-top:4px}
+.gen button.add:hover{border-style:solid}
+.client-row{display:grid;grid-template-columns:1.2fr 1fr .7fr 1fr 1.2fr;gap:8px;margin-bottom:8px}
+@media(max-width:640px){.client-row{grid-template-columns:1fr 1fr}}
+
 /* ---------- footer ---------- */
 .foot{border-top:2px solid var(--ink);padding:26px 56px;display:flex;justify-content:space-between;gap:16px;
   font-family:var(--mono);font-size:12px;color:var(--ink-soft);flex-wrap:wrap}
@@ -148,18 +162,22 @@ a{color:var(--chop);text-underline-offset:3px}
   <header class="head">
     <div class="eyebrow">e-Invois · LHDN Malaysia · API onboarding</div>
     <h1>Setup Invois <span style="color:var(--chop)">#001</span></h1>
-    <p class="sub">From zero to a working MyInvois API connection. Tick each line item off —
-      your progress is saved in this browser.</p>
+    <p class="sub">From zero to sending validated e-invoices, in three phases:
+      <b>get access</b>, <b>set up your back office</b>, <b>generate &amp; send</b>.
+      This page is a plain static file — double-click it, no server needed.
+      Tick each line item off; progress is saved in this browser.</p>
     <div class="meta">
       <div><span class="k">Issued to</span>You (taxpayer / dev)</div>
       <div><span class="k">Supplier</span>LHDN MyInvois</div>
       <div><span class="k">Environment</span>Sandbox first</div>
       <div><span class="k">Time needed</span>± 20 minutes</div>
-      <div class="total"><span class="k">Progress</span><span id="progress-count">0 / 9</span> completed</div>
+      <div class="total"><span class="k">Progress</span><span id="progress-count">0 / 11</span> completed</div>
     </div>
   </header>
 
   <main class="steps">
+
+  <div class="phase"><span class="p-title">Get your company-specific access</span><span class="p-k">Phase 1 · once ever</span></div>
 
   <!-- ============ 01 ============ -->
   <section class="step" data-step="1">
@@ -262,7 +280,7 @@ a{color:var(--chop);text-underline-offset:3px}
           </div>
         </div>
       </div>
-      <p class="caption">“ERP” just means <i>any system that talks to the API</i> — your CLI counts. Name it something you'll recognise, e.g. <code class="k">seanlon-cli</code>. Pick the longest client-secret expiry offered.</p>
+      <p class="caption">“ERP” just means <i>any system that talks to the API</i> — your CLI counts. Name it something you'll recognise, e.g. <code class="k">yourcompany-cli</code>. Pick the longest client-secret expiry offered.</p>
       <div class="note red"><b>Register under the right taxpayer!</b> The keys belong to whoever's profile you're in. If you skip the role switch in step 03 and register from your <i>personal</i> profile, company invoices will fail with <code class="k">authenticated TIN and documents TIN is not matching</code> — and you'll have to re-register under the company role.</div>
     </div>
     <div class="stat"><input type="checkbox" aria-label="Mark step 4 done"></div>
@@ -279,7 +297,7 @@ a{color:var(--chop);text-underline-offset:3px}
         <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
           <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my — ERP registered ✓</div></div>
         <div class="bbody">
-          <div class="mock-title">seanlon-cli — credentials</div>
+          <div class="mock-title">yourcompany-cli — credentials</div>
           <div class="mock-card" style="position:relative">
             <div class="mock-row"><span>Client ID</span><span class="v">a1b2c3d4-e5f6-…</span></div>
             <div class="mock-row"><span>Client Secret</span><span class="v blur">9f8e7d6c5b4a3210ffee</span></div>
@@ -333,6 +351,8 @@ a{color:var(--chop);text-underline-offset:3px}
     <div class="stat"><input type="checkbox" aria-label="Mark step 7 done"></div>
   </section>
 
+  <div class="phase"><span class="p-title">Back office — who you are, who you bill</span><span class="p-k">Phase 2 · once, then maintain</span></div>
+
   <!-- ============ 08 ============ -->
   <section class="step" data-step="8">
     <div class="no">08<small>profile</small></div>
@@ -375,7 +395,28 @@ a{color:var(--chop);text-underline-offset:3px}
 
   <!-- ============ 09 ============ -->
   <section class="step" data-step="9">
-    <div class="no">09<small>submit</small></div>
+    <div class="no">09<small>clients</small></div>
+    <div>
+      <h2>Build your client book</h2>
+      <p>Save each business client once — future invoices pick them up by name. Ask clients for their <b>TIN + BRN</b> (they're obliged to provide it when they want an e-invoice), or derive the TIN from their BRN:</p>
+      <div class="code">node skills/myinvois/scripts/myinvois.mjs search-tin BRN <span class="y">&lt;their BRN&gt;</span></div>
+      <div class="gen">
+        <h3>Client book builder</h3>
+        <p class="priv">Fully local, nothing leaves this page. Save as <b>~/.myinvois-clients.json</b>. Consumers who don't ask for an e-invoice don't go here — they fall into the monthly consolidated invoice.</p>
+        <div id="client-rows"></div>
+        <button class="add" id="add-client" type="button">+ add another client</button>
+        <label style="margin-top:12px">File content — save as <b>~/.myinvois-clients.json</b></label>
+        <div class="code" id="clients-out" style="max-height:240px"></div>
+      </div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 9 done"></div>
+  </section>
+
+  <div class="phase"><span class="p-title">Generate &amp; send</span><span class="p-k">Phase 3 · every invoice</span></div>
+
+  <!-- ============ 10 ============ -->
+  <section class="step" data-step="10">
+    <div class="no">10<small>submit</small></div>
     <div>
       <h2>Send your first e-invoice</h2>
       <p><b>Easiest path:</b> open Claude Code anywhere and drop an invoice PDF with the words <i>“submit this to MyInvois”</i>. The <code class="k">myinvois</code> skill extracts the buyer and line items, merges your profile, shows you a summary to approve, submits, and returns the LHDN validation link.</p>
@@ -388,7 +429,44 @@ node skills/myinvois/scripts/myinvois.mjs submit my-invoice.json --stamp
 node skills/myinvois/scripts/myinvois.mjs submission <span class="y">&lt;submissionUid&gt;</span></div>
       <div class="note">Going live later = repeat steps 02–06 once on the real portals (<span style="font-family:var(--mono)">mytax.hasil.gov.my</span>) and flip <code class="k">MYINVOIS_ENV=prod</code>. Nothing else changes.</div>
     </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 9 done"></div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 10 done"></div>
+  </section>
+
+  <!-- ============ 11 ============ -->
+  <section class="step" data-step="11">
+    <div class="no">11<small>your pdf</small></div>
+    <div>
+      <h2>Use your own invoice PDF</h2>
+      <p>Already generate invoices elsewhere? Drop the PDF on Claude and it becomes the e-invoice source. For that to work without back-and-forth, the PDF must contain:</p>
+      <ul class="check">
+        <li><span class="req">required</span> Invoice number — unique, never reused</li>
+        <li><span class="req">required</span> Line items — description, quantity, unit price</li>
+        <li><span class="req">required</span> Buyer name — plus TIN or BRN for business buyers (or keep them in your client book, step 09)</li>
+        <li><span class="req">required</span> Totals — and the SST amount/rate if you charge tax</li>
+        <li><span class="opt">optional</span> Buyer address, email, phone — enriches the record</li>
+        <li><span class="opt">optional</span> Issue date — submission is stamped at send time anyway</li>
+      </ul>
+      <p>Your <b>seller</b> details never need to be in the PDF — they come from the profile (step 08). Anything missing, Claude asks instead of guessing.</p>
+      <div class="gen">
+        <h3>Prompt builder — state your goal</h3>
+        <p class="priv">Generates a paste-ready instruction for Claude Code (skill) or any MCP client. Attach your PDF along with it.</p>
+        <div class="grid">
+          <div><label for="p11-mode">Scenario</label>
+            <select id="p11-mode">
+              <option value="pdf" selected>I have my own invoice PDF</option>
+              <option value="details">No PDF — I'll give details in chat</option>
+              <option value="selfbill">Foreign vendor receipt → self-billed</option>
+              <option value="consol">Monthly consolidated (General Public)</option>
+            </select></div>
+          <div><label for="p11-client">Client name (optional)</label><input id="p11-client" placeholder="as saved in your client book"></div>
+          <div class="full"><label for="p11-goal">Extra goal / notes (optional)</label><input id="p11-goal" placeholder="e.g. add 8% SST on the service line; email me the QR"></div>
+        </div>
+        <label style="margin-top:8px">Paste this to Claude</label>
+        <div class="code" id="prompt-out" style="white-space:pre-wrap;padding-right:70px"></div>
+      </div>
+      <div class="note">After validation you get the LHDN link — send your client your PDF <b>plus</b> that link or its QR. Make the QR image locally with: <code class="k">npx qrcode "&lt;validation link&gt;" -o invoice-qr.png</code></div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 11 done"></div>
   </section>
 
   </main>
@@ -470,6 +548,46 @@ function renderProfile(){
 ['p-tin','p-brn','p-msic','p-name','p-act','p-addr','p-city','p-post','p-state','p-phone','p-email','p-inv']
   .forEach(id=>$(id).addEventListener('input',renderProfile));
 renderProfile();
+
+// ---------- client book builder ----------
+const rowsEl=$('client-rows');
+function addClientRow(){
+  const d=document.createElement('div');
+  d.className='client-row';
+  d.innerHTML=`<input placeholder="Client name" data-k="name">
+    <input placeholder="TIN (C…)" data-k="tin">
+    <select data-k="idType"><option>BRN</option><option>NRIC</option><option>PASSPORT</option><option>ARMY</option></select>
+    <input placeholder="BRN / NRIC" data-k="idValue">
+    <input placeholder="email (optional)" data-k="email">`;
+  d.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',renderClients));
+  rowsEl.appendChild(d);
+}
+function renderClients(){
+  const clients=[...rowsEl.querySelectorAll('.client-row')].map(r=>{
+    const v=k=>r.querySelector(`[data-k="${k}"]`).value.trim();
+    return {name:v('name'),tin:v('tin'),idType:v('idType'),idValue:v('idValue'),...(v('email')?{email:v('email')}:{})};
+  }).filter(c=>c.name||c.tin);
+  const el=$('clients-out');
+  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
+  el.append(JSON.stringify({clients:clients.length?clients:[{name:'EXAMPLE CLIENT SDN BHD',tin:'C1234567890',idType:'BRN',idValue:'201901234567',email:'accounts@client.com'}]},null,2));
+}
+$('add-client').addEventListener('click',addClientRow);
+addClientRow();renderClients();
+
+// ---------- prompt builder ----------
+const PROMPTS={
+  pdf:(c,g)=>`Use the myinvois skill. Read the attached invoice PDF and turn it into a MyInvois e-invoice: extract the buyer and line items${c?` (the buyer is "${c}" from my client book at ~/.myinvois-clients.json)`:''}, validate the buyer TIN first, build the document from my supplier profile, show me a summary table for approval BEFORE submitting, then submit and give me the validation link and a QR image of it.${g?` Also: ${g}.`:''}`,
+  details:(c,g)=>`Use the myinvois skill. I want to issue an e-invoice${c?` to "${c}" from my client book`:''} — ask me for the line items (description, quantity, unit price) and anything else you need, validate the buyer TIN, show me a summary for approval before submitting, then submit and give me the validation link and QR.${g?` Also: ${g}.`:''}`,
+  selfbill:(c,g)=>`Use the myinvois skill. Attached is a receipt from my foreign vendor${c?` (${c})`:''}. Create a SELF-BILLED e-invoice (type 11): the vendor goes in the supplier block with generic TIN EI00000000030 and registration "NA", my company is the buyer. Show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
+  consol:(c,g)=>`Use the myinvois skill. Create this month's consolidated e-invoice to General Public (buyer TIN EI00000000010, classification code 004) — ask me for the period total, show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
+};
+function renderPrompt(){
+  const el=$('prompt-out');
+  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
+  el.append(PROMPTS[$('p11-mode').value]($('p11-client').value.trim(),$('p11-goal').value.trim()));
+}
+['p11-mode','p11-client','p11-goal'].forEach(id=>$(id).addEventListener('input',renderPrompt));
+renderPrompt();
 </script>
 </body>
 </html>

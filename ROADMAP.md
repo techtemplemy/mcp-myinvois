@@ -32,7 +32,7 @@ Next, grow it into a small local web app for non-Claude users / batch use:
 - Mapping presets saved per buyer (repeat customers auto-fill).
 
 ## Phase 3.5 — MCP server ✅ (built + live-tested 2026-07-11)
-`myinvois-mcp` (repo root package): `lib/core.mjs` + `lib/ubl.mjs` shared core,
+`e-invoice-malaysia-mcp` (npm, repo root package; renamed from myinvois-mcp — name was taken): `lib/core.mjs` + `lib/ubl.mjs` shared core,
 `mcp/server.mjs` stdio server on @modelcontextprotocol/sdk. 11 tools, two-step
 draft→confirm submission (one-time token, 10-min TTL), ERR236 pre-flight guard,
 sandbox default. End-to-end test submitted INV-2026-0003 → Valid via MCP.

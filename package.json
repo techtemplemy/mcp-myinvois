@@ -1,10 +1,10 @@
 {
-  "name": "myinvois-mcp",
-  "version": "1.0.0",
+  "name": "e-invoice-malaysia-mcp",
+  "version": "1.0.1",
   "description": "Unofficial MCP server for Malaysia's LHDN MyInvois e-invoice API — validate TINs, draft and submit e-invoices with a two-step confirmation flow. Not affiliated with or endorsed by LHDN.",
   "type": "module",
   "bin": {
-    "myinvois-mcp": "./mcp/server.mjs"
+    "e-invoice-malaysia-mcp": "./mcp/server.mjs"
   },
   "files": [
     "mcp",

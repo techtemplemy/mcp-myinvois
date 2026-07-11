@@ -11,7 +11,7 @@ any MCP client. Three ways in, one shared core:
 | Follow a visual "where do I click" walkthrough | **[setup guide](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html)** ([source](docs/setup-guide.html)) — plain static HTML, also works by double-clicking the file |
 | Make a print-ready invoice PDF with the LHDN QR | **[invoice maker](https://techtemplemy.github.io/e-invoice-malaysia-mcp/invoice-maker.html)** ([source](docs/invoice-maker.html)) — fonts, logo, accent colour, live totals, all in-browser |
 | Use Claude Code only | the **skill** in `skills/myinvois/` — fully standalone |
-| Use Claude Desktop / Cursor / any MCP client | the **MCP server** `myinvois-mcp` |
+| Use Claude Desktop / Cursor / any MCP client | the **MCP server** `e-invoice-malaysia-mcp` |
 | Script it myself | the zero-dependency **CLI** `skills/myinvois/scripts/myinvois.mjs` + [curl reference](skills/myinvois/references/curls.md) |
 
 > Unofficial. Not affiliated with or endorsed by LHDN. You are responsible for
@@ -52,7 +52,7 @@ Then just talk to Claude Code: *"set up my Malaysia e-invoice access"*,
 *"save my client Acme Sdn Bhd"*, *"submit this invoice PDF to MyInvois"* —
 the skill covers setup, back office, and generation as guided workflows.
 
-## MCP server (`myinvois-mcp`)
+## MCP server (`e-invoice-malaysia-mcp`)
 
 11 tools: `validate_tin`, `search_tin`, `get_supplier_profile`, `draft_invoice`,
 `prepare_ubl_submission`, `confirm_submission`, `get_submission`, `get_document`,
@@ -68,7 +68,7 @@ env, no telemetry, no middleman.
   "mcpServers": {
     "myinvois": {
       "command": "npx",
-      "args": ["-y", "myinvois-mcp"],
+      "args": ["-y", "e-invoice-malaysia-mcp"],
       "env": {
         "MYINVOIS_CLIENT_ID": "…",
         "MYINVOIS_CLIENT_SECRET": "…",
@@ -94,7 +94,7 @@ skills/myinvois/             # standalone Claude Code skill
   templates/invoice-v1.0.json
   references/api.md          #   field rules, codes, common rejections
   references/curls.md        #   every endpoint as copy-paste curl
-lib/ + mcp/server.mjs        # myinvois-mcp MCP server (npm package, this repo root)
+lib/ + mcp/server.mjs        # e-invoice-malaysia-mcp MCP server (npm package, this repo root)
 postman/                     # official LHDN Postman collection + environments
 ROADMAP.md
 ```

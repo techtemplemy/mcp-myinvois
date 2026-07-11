@@ -7,6 +7,7 @@
 // only confirm_submission({ confirmationToken }) actually submits.
 
 import { randomUUID } from "node:crypto";
+import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
@@ -66,7 +67,8 @@ const lineSchema = z.object({
   unitCode: z.string().default("C62"),
 });
 
-const server = new McpServer({ name: "myinvois-mcp", version: "0.1.0" });
+const pkg = createRequire(import.meta.url)("../package.json");
+const server = new McpServer({ name: pkg.name, version: pkg.version });
 
 server.tool(
   "validate_tin",

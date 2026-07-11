@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Record a supplier bill — MyInvois toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html" class="on">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
+<div class="sheet">
+  <header class="head">
+    <div class="eyebrow">e-Invois · LHDN Malaysia · journey ⑤ · monthly</div>
+    <h1>Record a supplier bill</h1>
+    <p class="sub">Self-billed e-invoices for foreign vendors — the part everyone forgets until tax season.</p>
+    <div class="meta">
+      <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 1</span> completed</div>
+    </div>
+  </header>
+  <main class="steps">
+  <div class="gen hero">
+    <h3>🤖 Fastest path — say this to Claude</h3>
+    <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
+    <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the myinvois skill. Here's a receipt from my foreign vendor — create the SELF-BILLED e-invoice for it (type 11: vendor as supplier with generic TIN EI00000000030, my company as buyer). Show me the summary before submitting.</div>
+  </div>
+
+  <!-- ============ 14 ============ -->
+  <section class="step" data-step="14">
+    <div class="no">14<small>type 11</small></div>
+    <div>
+      <h2>Record a foreign supplier bill (self-billed)</h2>
+      <p>Foreign vendors — OpenAI, Hostinger, AWS, ElevenLabs — never issue Malaysian e-invoices. To claim the expense, <b>you</b> issue the e-invoice on their behalf: a <b>self-billed invoice, type 11</b>. The roles flip:</p>
+      <ul>
+        <li><b>Supplier</b> = the foreign vendor — generic TIN <code class="k">EI00000000030</code>, registration number <code class="k">NA</code>, their real country code (e.g. <code class="k">USA</code>, <code class="k">LTU</code>)</li>
+        <li><b>Buyer</b> = your company, straight from your profile</li>
+        <li><b>Deadline</b> — issue by the <b>end of the month after payment</b></li>
+      </ul>
+      <p>Same flow as any invoice afterwards: summary → your approval → submit → validation link. MCP: <code class="k">draft_invoice</code> with <code class="k">typeCode "11"</code>.</p>
+      <div class="note red">Imported services can also trigger reverse-charge <b>service tax</b> — a separate filing from the e-invoice. Confirm with your accountant whether it applies to your subscriptions.</div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 14 done"></div>
+  </section>
+  </main>
+  <footer class="foot">
+    <span>← <a href="guide-check.html">④ check invoices</a></span>
+    <span>next: <a href="invoice-maker.html">make the print-ready PDF</a> →</span>
+  </footer>
+</div>
+<script src="guide.js"></script>
+
+</body>
+</html>

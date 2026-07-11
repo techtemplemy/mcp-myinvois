@@ -6,588 +6,79 @@
 <title>MyInvois API — Setup Invois</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --paper:#FAF9F5; --ink:#1B2A4A; --ink-soft:#4A5878; --rule:#D8D5CC;
-  --chop:#C0321C; --chop-soft:#F6E3DF; --hi:#F6C915; --hi-soft:#FBF3D2;
-  --desk:#E4E1D8; --ok:#1F7A4D; --ok-soft:#E1F0E8;
-  --mono:'IBM Plex Mono',Consolas,monospace;
-  --disp:'Space Grotesk','IBM Plex Sans',sans-serif;
-  --body:'IBM Plex Sans',system-ui,sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--desk);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
-.sheet{max-width:900px;margin:40px auto 80px;background:var(--paper);
-  box-shadow:0 1px 2px rgba(27,42,74,.12),0 12px 40px rgba(27,42,74,.14);
-  border-top:6px solid var(--ink)}
-@media(max-width:940px){.sheet{margin:0}}
-
-/* ---------- letterhead ---------- */
-.head{padding:44px 56px 0}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--chop)}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.05;margin:10px 0 6px}
-.head .sub{color:var(--ink-soft);max-width:56ch}
-.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border:1px solid var(--rule);
-  margin-top:28px;font-family:var(--mono);font-size:13px}
-.meta>div{padding:10px 14px;border-right:1px solid var(--rule)}
-.meta>div:last-child{border-right:0}
-.meta .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:2px}
-.meta .total{background:var(--ink);color:var(--paper)}
-.meta .total .k{color:#9FB0D4}
-#progress-count{color:var(--hi);font-weight:600}
-
-/* ---------- step line items ---------- */
-.steps{padding:16px 56px 56px}
-.step{display:grid;grid-template-columns:64px 1fr 56px;gap:0 24px;border-bottom:1px solid var(--rule);padding:34px 0}
-.step:last-of-type{border-bottom:0}
-.no{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);padding-top:2px}
-.no small{display:block;font-size:10px;letter-spacing:.14em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
-.step h2{font-family:var(--disp);font-size:22px;font-weight:700;margin-bottom:8px}
-.step p{color:var(--ink-soft);margin-bottom:12px;max-width:62ch}
-.step p b,.step li b{color:var(--ink)}
-.step ul{margin:0 0 12px 20px;color:var(--ink-soft)}
-.step li{margin-bottom:6px}
-.step.done h2{color:var(--ink-soft)}
-.step.done .no{color:var(--ok)}
-
-/* status checkbox column */
-.stat{padding-top:2px;text-align:right}
-.stat input{appearance:none;width:26px;height:26px;border:2px solid var(--ink);cursor:pointer;position:relative;background:var(--paper)}
-.stat input:checked{background:var(--ok);border-color:var(--ok)}
-.stat input:checked::after{content:"✓";color:#fff;font-family:var(--mono);font-weight:600;position:absolute;inset:0;display:grid;place-items:center;font-size:16px}
-.stat input:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
-
-/* ---------- inline atoms ---------- */
-code.k{font-family:var(--mono);font-size:.88em;background:var(--hi-soft);padding:1px 6px;border:1px solid #E8DCA8}
-a{color:var(--chop);text-underline-offset:3px}
-.url{font-family:var(--mono);font-size:14px;background:var(--hi-soft);border:1px dashed #C9B75B;padding:6px 12px;display:inline-block;margin:2px 0 10px;user-select:all}
-.note{border-left:4px solid var(--hi);background:var(--hi-soft);padding:10px 14px;font-size:14px;margin:12px 0;max-width:62ch}
-.note.red{border-color:var(--chop);background:var(--chop-soft)}
-.tag-ok{font-family:var(--mono);font-size:11px;background:var(--ok-soft);color:var(--ok);padding:2px 8px;letter-spacing:.08em}
-
-/* ---------- code blocks ---------- */
-.code{position:relative;background:var(--ink);color:#DCE4F5;font-family:var(--mono);font-size:13.5px;
-  padding:16px 18px;margin:10px 0 14px;overflow:auto;line-height:1.7;max-width:680px;white-space:pre}
-.code .c{color:#8DA0C8}
-.code .y{color:var(--hi)}
-.copy{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
-  background:transparent;color:#9FB0D4;border:1px solid #44547A;padding:4px 10px;cursor:pointer}
-.copy:hover{color:var(--hi);border-color:var(--hi)}
-.copy.ok{color:var(--ok);border-color:var(--ok)}
-
-/* ---------- browser mock ---------- */
-.browser{border:1.5px solid var(--ink);margin:16px 0 6px;max-width:680px;background:#fff;position:relative}
-.bbar{display:flex;align-items:center;gap:10px;background:var(--ink);padding:8px 12px}
-.bdots{display:flex;gap:5px}
-.bdots i{width:9px;height:9px;border-radius:50%;background:#44547A;display:block}
-.baddr{flex:1;font-family:var(--mono);font-size:12px;background:#2A3A60;color:#CBD6EE;padding:4px 12px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.baddr b{color:var(--hi);font-weight:500}
-.bbody{padding:22px 24px;position:relative;min-height:120px}
-.caption{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-bottom:14px}
-
-/* mock portal ui atoms */
-.mock-title{font-family:var(--disp);font-weight:700;font-size:15px;margin-bottom:12px;color:var(--ink)}
-.mock-field{margin-bottom:10px;max-width:320px}
-.mock-field label{display:block;font-size:11px;font-family:var(--mono);letter-spacing:.06em;color:var(--ink-soft);margin-bottom:3px;text-transform:uppercase}
-.mock-input{border:1px solid #B9BFCC;background:#F4F5F8;padding:7px 10px;font-size:13px;color:var(--ink);font-family:var(--body)}
-.mock-input.sel::after{content:"▾";float:right;color:var(--ink-soft)}
-.mock-btn{display:inline-block;background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:8px 18px;border:0}
-.mock-btn.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
-.mock-menu{display:flex;gap:0;border-bottom:2px solid #E3E5EB;margin-bottom:16px;font-size:13px;flex-wrap:wrap}
-.mock-menu span{padding:8px 14px;color:var(--ink-soft)}
-.mock-menu span.on{color:var(--ink);font-weight:600;border-bottom:2px solid var(--chop);margin-bottom:-2px}
-.mock-card{border:1px solid #E3E5EB;padding:14px 16px;margin-bottom:10px;max-width:420px}
-.mock-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:6px 0;border-bottom:1px dashed #E3E5EB}
-.mock-row:last-child{border-bottom:0}
-.mock-row .v{font-family:var(--mono);font-size:12px}
-.blur{filter:blur(3px);user-select:none}
-
-/* ---------- the chop (click marker) ---------- */
-.chop{position:absolute;width:58px;height:58px;pointer-events:none;z-index:3}
-.chop .ring{position:absolute;inset:0;border:3px double var(--chop);border-radius:50%;
-  transform:rotate(-8deg);background:radial-gradient(circle,rgba(192,50,28,.10),rgba(192,50,28,.03) 65%,transparent 70%)}
-.chop .n{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);
-  font-weight:600;font-size:19px;color:var(--chop);transform:rotate(-8deg)}
-.chop .lbl{position:absolute;left:46px;top:-22px;background:var(--chop);color:#fff;font-family:var(--mono);
-  font-size:10.5px;letter-spacing:.1em;padding:3px 8px;white-space:nowrap;text-transform:uppercase}
-.chop.flip .lbl{left:auto;right:46px;top:-22px}
-.chop.below .lbl{left:46px;top:62px}
-@media(prefers-reduced-motion:no-preference){
-  .chop .ring{animation:stamp 2.6s ease-in-out infinite}
-  @keyframes stamp{0%,100%{transform:rotate(-8deg) scale(1)}50%{transform:rotate(-8deg) scale(1.07)}}
-}
-@media(max-width:640px){.chop .lbl{display:none}}
-
-/* ---------- generators ---------- */
-.gen{border:1.5px solid var(--ink);padding:18px 20px;max-width:680px;margin:12px 0}
-.gen h3{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
-.gen .priv{font-size:12.5px;color:var(--ink-soft);margin-bottom:14px}
-.gen .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-bottom:8px}
-.gen .grid.three{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:640px){.gen .grid,.gen .grid.three{grid-template-columns:1fr}}
-.gen label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px}
-.gen input,.gen select{width:100%;border:1px solid var(--ink);background:#fff;padding:8px 10px;
-  font-family:var(--mono);font-size:13px;color:var(--ink)}
-.gen input:focus,.gen select:focus{outline:3px solid var(--hi);outline-offset:-1px}
-.gen .full{grid-column:1/-1}
-
-/* ---------- phase banners ---------- */
-.phase{margin:40px 0 0;padding:8px 0;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.phase .p-k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--chop);white-space:nowrap}
-.phase .p-title{font-family:var(--disp);font-weight:700;font-size:17px}
-.req,.opt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;margin-right:8px}
-.req{background:var(--chop-soft);color:var(--chop)}
-.opt{background:var(--desk);color:var(--ink-soft)}
-ul.check{list-style:none;margin:0 0 12px}
-ul.check li{margin-bottom:7px;color:var(--ink-soft)}
-.gen button.add{background:none;border:1.5px dashed var(--ink);color:var(--ink);font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:7px 14px;cursor:pointer;margin-top:4px}
-.gen button.add:hover{border-style:solid}
-.client-row{display:grid;grid-template-columns:1.2fr 1fr .7fr 1fr 1.2fr;gap:8px;margin-bottom:8px}
-@media(max-width:640px){.client-row{grid-template-columns:1fr 1fr}}
-
-/* ---------- footer ---------- */
-.foot{border-top:2px solid var(--ink);padding:26px 56px;display:flex;justify-content:space-between;gap:16px;
-  font-family:var(--mono);font-size:12px;color:var(--ink-soft);flex-wrap:wrap}
-@media(max-width:700px){.head,.steps{padding-left:22px;padding-right:22px}.foot{padding:22px}
-  .step{grid-template-columns:44px 1fr 40px;gap:0 12px}.no{font-size:17px}}
-@media print{body{background:#fff}.sheet{box-shadow:none;margin:0}.copy{display:none}}
-</style>
+<link rel="stylesheet" href="guide.css">
 </head>
 <body>
+<div class="gnav"><a href="setup-guide.html" class="on">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
 <div class="sheet">
-
-  <!-- ============ LETTERHEAD ============ -->
   <header class="head">
     <div class="eyebrow">e-Invois · LHDN Malaysia · API onboarding</div>
     <h1>Setup Invois <span style="color:var(--chop)">#001</span></h1>
-    <p class="sub">From zero to sending validated e-invoices, in three phases:
-      <b>get access</b>, <b>set up your back office</b>, <b>generate &amp; send</b>.
-      This page is a plain static file — double-click it, no server needed.
-      Tick each line item off; progress is saved in this browser.</p>
+    <p class="sub">From zero to sending validated e-invoices. Pick your journey — each page opens
+      with a copy-paste prompt for Claude, then shows every click and command for doing it
+      yourself. Plain static files; progress is saved in this browser across all pages.</p>
     <div class="meta">
       <div><span class="k">Issued to</span>You (taxpayer / dev)</div>
       <div><span class="k">Supplier</span>LHDN MyInvois</div>
       <div><span class="k">Environment</span>Sandbox first</div>
-      <div><span class="k">Time needed</span>± 20 minutes</div>
-      <div class="total"><span class="k">Progress</span><span id="progress-count">0 / 11</span> completed</div>
+      <div class="total"><span class="k">Overall progress</span><span id="hub-count">0 / 14</span> completed</div>
     </div>
   </header>
-
-  <main class="steps">
-
-  <div class="phase"><span class="p-title">Get your company-specific access</span><span class="p-k">Phase 1 · once ever</span></div>
-
-  <!-- ============ 01 ============ -->
-  <section class="step" data-step="1">
-    <div class="no">01<small>prepare</small></div>
-    <div>
-      <h2>What you need before starting</h2>
-      <ul>
-        <li><b>Your TIN</b> (Tax Identification Number) — e.g. <code class="k">C1234567890</code> for a company. Don't know it? Check MyTax, or e-Daftar.</li>
-        <li><b>A MyTax account</b> as the company's director or appointed representative. If the company is new to MyTax, the director must register a digital certificate first (guided on the login page).</li>
-        <li><b>Node.js ≥ 18</b> on this machine — for the CLI you'll verify with. Check: <code class="k">node --version</code></li>
-      </ul>
-      <div class="note">Sandbox is a full copy of production with fake data — nothing you submit there is a real tax document. Always start here.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 1 done"></div>
-  </section>
-
-  <!-- ============ 02 ============ -->
-  <section class="step" data-step="2">
-    <div class="no">02<small>login</small></div>
-    <div>
-      <h2>Log in to the sandbox MyTax</h2>
-      <p>The sandbox has its own portal — note the <b>preprod-</b> prefix:</p>
-      <div class="url">https://preprod-mytax.hasil.gov.my</div>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my</div></div>
-        <div class="bbody">
-          <div class="mock-title">MyTax — Log Masuk / Login</div>
-          <div class="mock-field"><label>Jenis Pengenalan / ID type</label>
-            <div class="mock-input sel">Identification Card No.&nbsp;</div></div>
-          <div class="mock-field"><label>No. Pengenalan / ID number</label>
-            <div class="mock-input">881212-14-5555</div></div>
-          <div style="position:relative;display:inline-block;margin:6px 0 30px">
-            <span class="mock-btn">Hantar / Submit</span>
-            <div class="chop below" style="left:-16px;top:-13px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">click after filling ID</div></div>
-          </div>
-        </div>
-      </div>
-      <p class="caption">Log in with your personal ID, then verify with your digital certificate password.</p>
-      <div class="note">First time in the sandbox? Your production MyTax account does <b>not</b> carry over automatically — if login fails, use “First Time Login” on the same page to activate your sandbox account with the same ID.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 2 done"></div>
-  </section>
-
-  <!-- ============ 03 ============ -->
-  <section class="step" data-step="3">
-    <div class="no">03<small>role</small></div>
-    <div>
-      <h2>Switch to the company role, open MyInvois</h2>
-      <p>You land on the MyTax dashboard as an individual. To act for the company, pick its role first, then open the MyInvois portal.</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my — Dashboard</div></div>
-        <div class="bbody">
-          <div class="mock-field" style="position:relative;max-width:340px">
-            <label>Peranan / Role</label>
-            <div class="mock-input sel">Directors of the Company — EXAMPLE SDN BHD&nbsp;</div>
-            <div class="chop" style="right:-24px;top:8px;left:auto" ><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">pick company role</div></div>
-          </div>
-          <div style="height:14px"></div>
-          <div class="mock-menu">
-            <span>ezHasil Services</span><span class="on" style="position:relative">MyInvois
-              <div class="chop flip" style="left:-14px;top:-14px"><div class="ring"></div><div class="n">2</div>
-                <div class="lbl">opens the portal</div></div>
-            </span><span>e-Daftar</span><span>Profile</span>
-          </div>
-          <p style="font-size:13px;color:var(--ink-soft)">MyInvois opens in a new tab at
-            <span style="font-family:var(--mono)">preprod.myinvois.hasil.gov.my</span></p>
-        </div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 3 done"></div>
-  </section>
-
-  <!-- ============ 04 ============ -->
-  <section class="step" data-step="4">
-    <div class="no">04<small>register</small></div>
-    <div>
-      <h2>Taxpayer profile → Register ERP</h2>
-      <p>Inside the MyInvois portal, open your <b>Taxpayer Profile</b> (top-right avatar → View Taxpayer Profile). The ERP registration lives there.</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my — Taxpayer Profile</div></div>
-        <div class="bbody">
-          <div class="mock-menu"><span>Documents</span><span>Reporting</span><span class="on">Profile</span></div>
-          <div class="mock-card">
-            <div class="mock-row"><span>Company</span><span class="v">EXAMPLE SDN BHD</span></div>
-            <div class="mock-row"><span>TIN</span><span class="v">C1234567890</span></div>
-            <div class="mock-row"><span>Registered ERPs</span><span class="v">0</span></div>
-          </div>
-          <div style="position:relative;display:inline-block">
-            <span class="mock-btn ghost">+ Register ERP</span>
-            <div class="chop" style="left:-18px;top:-15px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">this issues your keys</div></div>
-          </div>
-        </div>
-      </div>
-      <p class="caption">“ERP” just means <i>any system that talks to the API</i> — your CLI counts. Name it something you'll recognise, e.g. <code class="k">yourcompany-cli</code>. Pick the longest client-secret expiry offered.</p>
-      <div class="note red"><b>Register under the right taxpayer!</b> The keys belong to whoever's profile you're in. If you skip the role switch in step 03 and register from your <i>personal</i> profile, company invoices will fail with <code class="k">authenticated TIN and documents TIN is not matching</code> — and you'll have to re-register under the company role.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 4 done"></div>
-  </section>
-
-  <!-- ============ 05 ============ -->
-  <section class="step" data-step="5">
-    <div class="no">05<small>keys</small></div>
-    <div>
-      <h2>Copy the Client ID and Client Secret</h2>
-      <p>After registering, the portal shows your credentials <b>once</b>:</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my — ERP registered ✓</div></div>
-        <div class="bbody">
-          <div class="mock-title">yourcompany-cli — credentials</div>
-          <div class="mock-card" style="position:relative">
-            <div class="mock-row"><span>Client ID</span><span class="v">a1b2c3d4-e5f6-…</span></div>
-            <div class="mock-row"><span>Client Secret</span><span class="v blur">9f8e7d6c5b4a3210ffee</span></div>
-            <div class="chop flip" style="right:-20px;top:20px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">copy both now</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="note red"><b>The secret is shown only this once.</b> If you lose it, you don't recover it — you register a new ERP and get a new pair. Sandbox and production pairs are completely separate.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 5 done"></div>
-  </section>
-
-  <!-- ============ 06 ============ -->
-  <section class="step" data-step="6">
-    <div class="no">06<small>configure</small></div>
-    <div>
-      <h2>Generate your <span style="font-family:var(--mono)">~/.myinvois.env</span></h2>
-      <div class="gen">
-        <h3>Credential file builder</h3>
-        <p class="priv">Everything here stays in this page — no network calls, nothing stored. View source to verify.</p>
-        <div class="grid">
-          <div><label for="g-id">Client ID</label><input id="g-id" placeholder="a1b2c3d4-…" autocomplete="off"></div>
-          <div><label for="g-secret">Client Secret</label><input id="g-secret" placeholder="paste secret" autocomplete="off"></div>
-          <div><label for="g-env">Environment</label>
-            <select id="g-env"><option value="sandbox" selected>sandbox</option><option value="prod">prod</option></select></div>
-          <div><label for="g-obo">On behalf of (intermediaries only)</label><input id="g-obo" placeholder="leave empty normally"></div>
-        </div>
-        <label style="margin-top:8px">File content — save as <b>~/.myinvois.env</b></label>
-        <div class="code" id="env-out"></div>
-        <label>Or run this in PowerShell (writes the file for you)</label>
-        <div class="code" id="ps-out"></div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 6 done"></div>
-  </section>
-
-  <!-- ============ 07 ============ -->
-  <section class="step" data-step="7">
-    <div class="no">07<small>verify</small></div>
-    <div>
-      <h2>Prove the connection works</h2>
-      <p>From the <code class="k">einvoice</code> repo folder:</p>
-      <div class="code">node skills/myinvois/scripts/myinvois.mjs token</div>
-      <p>Expected: <span class="tag-ok">{ "env": "sandbox", "token": "eyJhbGciOi…(cached)" }</span></p>
-      <p>Then validate your own company's TIN against its BRN — this exercises a real business API:</p>
-      <div class="code">node skills/myinvois/scripts/myinvois.mjs validate-tin <span class="y">C1234567890</span> BRN <span class="y">201901234567</span></div>
-      <p>Expected: <span class="tag-ok">"valid": true</span></p>
-      <div class="note">Seeing <code class="k">invalid_client</code>? Wrong environment (sandbox keys against prod or vice-versa) or a typo in the secret. Re-check step 06.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 7 done"></div>
-  </section>
-
-  <div class="phase"><span class="p-title">Back office — who you are, who you bill</span><span class="p-k">Phase 2 · once, then maintain</span></div>
-
-  <!-- ============ 08 ============ -->
-  <section class="step" data-step="8">
-    <div class="no">08<small>profile</small></div>
-    <div>
-      <h2>Save your supplier profile</h2>
-      <p>Your seller details never change between invoices — store them once, and every future invoice (including the PDF workflow) fills itself.</p>
-      <div class="gen">
-        <h3>Supplier profile builder</h3>
-        <p class="priv">Also fully local. MSIC = your 5-digit business classification code (on your SSM profile).</p>
-        <div class="grid three">
-          <div><label for="p-tin">TIN</label><input id="p-tin" placeholder="C1234567890"></div>
-          <div><label for="p-brn">BRN</label><input id="p-brn" placeholder="201901234567"></div>
-          <div><label for="p-msic">MSIC code</label><input id="p-msic" placeholder="62010"></div>
-          <div class="full"><label for="p-name">Registered company name</label><input id="p-name" placeholder="EXAMPLE SDN BHD"></div>
-          <div class="full"><label for="p-act">Business activity description</label><input id="p-act" placeholder="Software development"></div>
-          <div class="full"><label for="p-addr">Address line</label><input id="p-addr" placeholder="12, Jalan Contoh 3/4"></div>
-          <div><label for="p-city">City</label><input id="p-city" placeholder="Kuala Lumpur"></div>
-          <div><label for="p-post">Postcode</label><input id="p-post" placeholder="50000"></div>
-          <div><label for="p-state">State</label>
-            <select id="p-state">
-              <option value="01">01 Johor</option><option value="02">02 Kedah</option>
-              <option value="03">03 Kelantan</option><option value="04">04 Melaka</option>
-              <option value="05">05 N. Sembilan</option><option value="06">06 Pahang</option>
-              <option value="07">07 P. Pinang</option><option value="08">08 Perak</option>
-              <option value="09">09 Perlis</option><option value="10">10 Selangor</option>
-              <option value="11">11 Terengganu</option><option value="12">12 Sabah</option>
-              <option value="13">13 Sarawak</option><option value="14" selected>14 W.P. Kuala Lumpur</option>
-              <option value="15">15 W.P. Labuan</option><option value="16">16 W.P. Putrajaya</option>
-            </select></div>
-          <div><label for="p-phone">Phone</label><input id="p-phone" placeholder="+60123456789"></div>
-          <div><label for="p-email">Billing email</label><input id="p-email" placeholder="billing@example.com"></div>
-          <div><label for="p-inv">Next invoice no.</label><input id="p-inv" placeholder="INV-2026-0001"></div>
-        </div>
-        <label style="margin-top:8px">Save as <b>~/.myinvois-profile.json</b></label>
-        <div class="code" id="profile-out" style="max-height:280px"></div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 8 done"></div>
-  </section>
-
-  <!-- ============ 09 ============ -->
-  <section class="step" data-step="9">
-    <div class="no">09<small>clients</small></div>
-    <div>
-      <h2>Build your client book</h2>
-      <p>Save each business client once — future invoices pick them up by name. Ask clients for their <b>TIN + BRN</b> (they're obliged to provide it when they want an e-invoice), or derive the TIN from their BRN:</p>
-      <div class="code">node skills/myinvois/scripts/myinvois.mjs search-tin BRN <span class="y">&lt;their BRN&gt;</span></div>
-      <div class="gen">
-        <h3>Client book builder</h3>
-        <p class="priv">Fully local, nothing leaves this page. Save as <b>~/.myinvois-clients.json</b>. Consumers who don't ask for an e-invoice don't go here — they fall into the monthly consolidated invoice.</p>
-        <div id="client-rows"></div>
-        <button class="add" id="add-client" type="button">+ add another client</button>
-        <label style="margin-top:12px">File content — save as <b>~/.myinvois-clients.json</b></label>
-        <div class="code" id="clients-out" style="max-height:240px"></div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 9 done"></div>
-  </section>
-
-  <div class="phase"><span class="p-title">Generate &amp; send</span><span class="p-k">Phase 3 · every invoice</span></div>
-
-  <!-- ============ 10 ============ -->
-  <section class="step" data-step="10">
-    <div class="no">10<small>submit</small></div>
-    <div>
-      <h2>Send your first e-invoice</h2>
-      <p><b>Easiest path:</b> open Claude Code anywhere and drop an invoice PDF with the words <i>“submit this to MyInvois”</i>. The <code class="k">myinvois</code> skill extracts the buyer and line items, merges your profile, shows you a summary to approve, submits, and returns the LHDN validation link.</p>
-      <p><b>Manual path:</b></p>
-      <div class="code"><span class="c"># 1. copy the template &amp; fill the ALL_CAPS placeholders</span>
-cp skills/myinvois/templates/invoice-v1.0.json my-invoice.json
-<span class="c"># 2. submit (--stamp refreshes the issue time — LHDN rejects stale ones)</span>
-node skills/myinvois/scripts/myinvois.mjs submit my-invoice.json --stamp
-<span class="c"># 3. poll until Valid, grab the share link</span>
-node skills/myinvois/scripts/myinvois.mjs submission <span class="y">&lt;submissionUid&gt;</span></div>
-      <div class="note">Going live later = repeat steps 02–06 once on the real portals (<span style="font-family:var(--mono)">mytax.hasil.gov.my</span>) and flip <code class="k">MYINVOIS_ENV=prod</code>. Nothing else changes.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 10 done"></div>
-  </section>
-
-  <!-- ============ 11 ============ -->
-  <section class="step" data-step="11">
-    <div class="no">11<small>your pdf</small></div>
-    <div>
-      <h2>Use your own invoice PDF</h2>
-      <p>Already generate invoices elsewhere? Drop the PDF on Claude and it becomes the e-invoice source. For that to work without back-and-forth, the PDF must contain:</p>
-      <ul class="check">
-        <li><span class="req">required</span> Invoice number — unique, never reused</li>
-        <li><span class="req">required</span> Line items — description, quantity, unit price</li>
-        <li><span class="req">required</span> Buyer name — plus TIN or BRN for business buyers (or keep them in your client book, step 09)</li>
-        <li><span class="req">required</span> Totals — and the SST amount/rate if you charge tax</li>
-        <li><span class="opt">optional</span> Buyer address, email, phone — enriches the record</li>
-        <li><span class="opt">optional</span> Issue date — submission is stamped at send time anyway</li>
-      </ul>
-      <p>Your <b>seller</b> details never need to be in the PDF — they come from the profile (step 08). Anything missing, Claude asks instead of guessing.</p>
-      <div class="gen">
-        <h3>Prompt builder — state your goal</h3>
-        <p class="priv">Generates a paste-ready instruction for Claude Code (skill) or any MCP client. Attach your PDF along with it.</p>
-        <div class="grid">
-          <div><label for="p11-mode">Scenario</label>
-            <select id="p11-mode">
-              <option value="pdf" selected>I have my own invoice PDF</option>
-              <option value="details">No PDF — I'll give details in chat</option>
-              <option value="selfbill">Foreign vendor receipt → self-billed</option>
-              <option value="consol">Monthly consolidated (General Public)</option>
-            </select></div>
-          <div><label for="p11-client">Client name (optional)</label><input id="p11-client" placeholder="as saved in your client book"></div>
-          <div class="full"><label for="p11-goal">Extra goal / notes (optional)</label><input id="p11-goal" placeholder="e.g. add 8% SST on the service line; email me the QR"></div>
-        </div>
-        <label style="margin-top:8px">Paste this to Claude</label>
-        <div class="code" id="prompt-out" style="white-space:pre-wrap;padding-right:70px"></div>
-      </div>
-      <div class="note">After validation you get the LHDN link — send your client your PDF <b>plus</b> that link or its QR. Make the QR image locally with: <code class="k">npx qrcode "&lt;validation link&gt;" -o invoice-qr.png</code></div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 11 done"></div>
-  </section>
-
-  </main>
-
+  <div class="jcards">
+    <a class="jcard" href="guide-access.html" data-range="1-7">
+      <span class="n">journey ①</span>
+      <span class="t">Get access</span>
+      <span class="d">Portal walkthrough with mock screens → API keys in ~/.myinvois.env. Once ever, ±20 min.</span>
+      <span class="prog">—</span>
+    </a>
+    <a class="jcard" href="guide-configure.html" data-range="8-9">
+      <span class="n">journey ②</span>
+      <span class="t">Configure once</span>
+      <span class="d">Supplier profile + client book — two local files every invoice reuses.</span>
+      <span class="prog">—</span>
+    </a>
+    <a class="jcard" href="guide-submit.html" data-range="10-11">
+      <span class="n">journey ③</span>
+      <span class="t">Submit an e-invoice</span>
+      <span class="d">Your PDF or chat details → validated LHDN document + QR. The everyday one.</span>
+      <span class="prog">—</span>
+    </a>
+    <a class="jcard" href="guide-check.html" data-range="12-13">
+      <span class="n">journey ④</span>
+      <span class="t">Check invoices</span>
+      <span class="d">Status, 31-day history, and the 72-hour cancel window.</span>
+      <span class="prog">—</span>
+    </a>
+    <a class="jcard" href="guide-selfbill.html" data-range="14-14">
+      <span class="n">journey ⑤</span>
+      <span class="t">Record a supplier bill</span>
+      <span class="d">Self-billed type 11 for foreign vendors (OpenAI, Hostinger…).</span>
+      <span class="prog">—</span>
+    </a>
+    <a class="jcard" href="invoice-maker.html">
+      <span class="n">bonus tool</span>
+      <span class="t">Invoice Maker</span>
+      <span class="d">Print-ready invoice PDF — your logo, fonts, colours, and the LHDN QR embedded.</span>
+      <span class="prog">→</span>
+    </a>
+  </div>
   <footer class="foot">
-    <span>einvoice toolkit · skills/myinvois</span>
-    <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a> · <a href="https://sdk.myinvois.hasil.gov.my/faq/">FAQ</a></span>
+    <span>einvoice toolkit · <a href="https://github.com/techtemplemy/e-invoice-malaysia-mcp">github</a></span>
+    <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a></span>
   </footer>
 </div>
-
 <script>
-// ---------- progress (localStorage) ----------
-const boxes=[...document.querySelectorAll('.stat input')];
-const count=document.getElementById('progress-count');
-function refresh(){
-  let n=0;
-  boxes.forEach(b=>{const s=b.closest('.step');s.classList.toggle('done',b.checked);if(b.checked)n++;});
-  count.textContent=n+' / '+boxes.length;
-}
-boxes.forEach(b=>{
-  const key='mi-step-'+b.closest('.step').dataset.step;
-  b.checked=localStorage.getItem(key)==='1';
-  b.addEventListener('change',()=>{localStorage.setItem(key,b.checked?'1':'0');refresh();});
+let total=0;
+for(let i=1;i<=14;i++) if(localStorage.getItem('mi-step-'+i)==='1') total++;
+document.getElementById('hub-count').textContent=total+' / 14';
+document.querySelectorAll('.jcard[data-range]').forEach(c=>{
+  const [a,b]=c.dataset.range.split('-').map(Number);
+  let done=0;
+  for(let i=a;i<=b;i++) if(localStorage.getItem('mi-step-'+i)==='1') done++;
+  const el=c.querySelector('.prog');
+  el.textContent=done+' / '+(b-a+1);
+  if(done===b-a+1) el.classList.add('full');
 });
-refresh();
-
-// ---------- copy buttons on every code block ----------
-document.querySelectorAll('.code').forEach(el=>{
-  const btn=document.createElement('button');
-  btn.className='copy';btn.textContent='copy';
-  btn.addEventListener('click',()=>{
-    navigator.clipboard.writeText(el.innerText.replace(/^copy\n?/,'').trim()).then(()=>{
-      btn.textContent='copied ✓';btn.classList.add('ok');
-      setTimeout(()=>{btn.textContent='copy';btn.classList.remove('ok');},1600);
-    });
-  });
-  el.prepend(btn);
-});
-
-// ---------- .env generator ----------
-const $=id=>document.getElementById(id);
-function envText(){
-  const id=$('g-id').value.trim()||'your-client-id';
-  const sec=$('g-secret').value.trim()||'your-client-secret';
-  const env=$('g-env').value, obo=$('g-obo').value.trim();
-  let t=`MYINVOIS_CLIENT_ID=${id}\nMYINVOIS_CLIENT_SECRET=${sec}\nMYINVOIS_ENV=${env}`;
-  if(obo)t+=`\nMYINVOIS_ONBEHALF=${obo}`;
-  return t;
-}
-function renderEnv(){
-  $('env-out').childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  $('env-out').append(envText());
-  const ps=$('ps-out');
-  ps.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  ps.append(`@'\n${envText()}\n'@ | Set-Content -Encoding ascii "$HOME\\.myinvois.env"`);
-}
-['g-id','g-secret','g-env','g-obo'].forEach(id=>$(id).addEventListener('input',renderEnv));
-renderEnv();
-
-// ---------- profile generator ----------
-function profileText(){
-  const v=id=>$(id).value.trim();
-  return JSON.stringify({
-    tin:v('p-tin')||'C1234567890', brn:v('p-brn')||'201901234567',
-    sst:'NA', ttx:'NA',
-    msic:v('p-msic')||'62010', businessActivity:v('p-act')||'Software development',
-    name:v('p-name')||'EXAMPLE SDN BHD',
-    address:{line1:v('p-addr')||'12, Jalan Contoh 3/4', city:v('p-city')||'Kuala Lumpur',
-      postcode:v('p-post')||'50000', stateCode:$('p-state').value},
-    phone:v('p-phone')||'+60123456789', email:v('p-email')||'billing@example.com',
-    nextInvoiceNumber:v('p-inv')||'INV-2026-0001'
-  },null,2);
-}
-function renderProfile(){
-  const el=$('profile-out');
-  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  el.append(profileText());
-}
-['p-tin','p-brn','p-msic','p-name','p-act','p-addr','p-city','p-post','p-state','p-phone','p-email','p-inv']
-  .forEach(id=>$(id).addEventListener('input',renderProfile));
-renderProfile();
-
-// ---------- client book builder ----------
-const rowsEl=$('client-rows');
-function addClientRow(){
-  const d=document.createElement('div');
-  d.className='client-row';
-  d.innerHTML=`<input placeholder="Client name" data-k="name">
-    <input placeholder="TIN (C…)" data-k="tin">
-    <select data-k="idType"><option>BRN</option><option>NRIC</option><option>PASSPORT</option><option>ARMY</option></select>
-    <input placeholder="BRN / NRIC" data-k="idValue">
-    <input placeholder="email (optional)" data-k="email">`;
-  d.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',renderClients));
-  rowsEl.appendChild(d);
-}
-function renderClients(){
-  const clients=[...rowsEl.querySelectorAll('.client-row')].map(r=>{
-    const v=k=>r.querySelector(`[data-k="${k}"]`).value.trim();
-    return {name:v('name'),tin:v('tin'),idType:v('idType'),idValue:v('idValue'),...(v('email')?{email:v('email')}:{})};
-  }).filter(c=>c.name||c.tin);
-  const el=$('clients-out');
-  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  el.append(JSON.stringify({clients:clients.length?clients:[{name:'EXAMPLE CLIENT SDN BHD',tin:'C1234567890',idType:'BRN',idValue:'201901234567',email:'accounts@client.com'}]},null,2));
-}
-$('add-client').addEventListener('click',addClientRow);
-addClientRow();renderClients();
-
-// ---------- prompt builder ----------
-const PROMPTS={
-  pdf:(c,g)=>`Use the myinvois skill. Read the attached invoice PDF and turn it into a MyInvois e-invoice: extract the buyer and line items${c?` (the buyer is "${c}" from my client book at ~/.myinvois-clients.json)`:''}, validate the buyer TIN first, build the document from my supplier profile, show me a summary table for approval BEFORE submitting, then submit and give me the validation link and a QR image of it.${g?` Also: ${g}.`:''}`,
-  details:(c,g)=>`Use the myinvois skill. I want to issue an e-invoice${c?` to "${c}" from my client book`:''} — ask me for the line items (description, quantity, unit price) and anything else you need, validate the buyer TIN, show me a summary for approval before submitting, then submit and give me the validation link and QR.${g?` Also: ${g}.`:''}`,
-  selfbill:(c,g)=>`Use the myinvois skill. Attached is a receipt from my foreign vendor${c?` (${c})`:''}. Create a SELF-BILLED e-invoice (type 11): the vendor goes in the supplier block with generic TIN EI00000000030 and registration "NA", my company is the buyer. Show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
-  consol:(c,g)=>`Use the myinvois skill. Create this month's consolidated e-invoice to General Public (buyer TIN EI00000000010, classification code 004) — ask me for the period total, show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
-};
-function renderPrompt(){
-  const el=$('prompt-out');
-  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  el.append(PROMPTS[$('p11-mode').value]($('p11-client').value.trim(),$('p11-goal').value.trim()));
-}
-['p11-mode','p11-client','p11-goal'].forEach(id=>$(id).addEventListener('input',renderPrompt));
-renderPrompt();
 </script>
 </body>
 </html>

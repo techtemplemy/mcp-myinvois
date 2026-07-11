@@ -23,8 +23,8 @@ flowchart TD
 ```
 
 Each step below has a **copy-paste prompt for Claude** and a no-AI fallback.
-Prefer clicking through screens? The **[visual setup guide](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html)**
-covers ①–③ with mock portal screenshots.
+Prefer clicking through screens? The **[visual guide hub](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html)**
+has one page per journey ①–⑤, each opening with the same copy-paste Claude prompt.
 
 ---
 
@@ -40,7 +40,7 @@ in a browser alongside you), warns you about the two traps everyone hits
 rejections), saves your keys to `~/.myinvois.env`, and proves the connection
 with a live token call.
 
-*No AI?* Follow [setup guide phase 1](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html) — it generates the `.env` file for you.
+*No AI?* Follow the [get-access page](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-access.html) — mock portal screens plus a `.env` generator.
 
 ## ② Configure once — you have keys
 
@@ -53,7 +53,7 @@ TIN against LHDN live**, and writes two small local files that every future
 invoice reuses: `~/.myinvois-profile.json` (you) and `~/.myinvois-clients.json`
 (who you bill). Nothing is stored anywhere else.
 
-*No AI?* [Setup guide phase 2](https://techtemplemy.github.io/e-invoice-malaysia-mcp/setup-guide.html) has in-browser generators for both files.
+*No AI?* The [configure page](https://techtemplemy.github.io/e-invoice-malaysia-mcp/guide-configure.html) has in-browser generators for both files.
 
 ## ③ Submit an e-invoice
 

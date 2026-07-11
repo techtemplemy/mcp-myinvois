@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configure once — MyInvois toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html" class="on">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
+<div class="sheet">
+  <header class="head">
+    <div class="eyebrow">e-Invois · LHDN Malaysia · journey ② · once, then maintain</div>
+    <h1>Configure once</h1>
+    <p class="sub">Tell the toolkit who you are and who you bill: two small local files that every future invoice reuses. Nothing leaves your machine.</p>
+    <div class="meta">
+      <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 2</span> completed</div>
+    </div>
+  </header>
+  <main class="steps">
+  <div class="gen hero">
+    <h3>🤖 Fastest path — say this to Claude</h3>
+    <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
+    <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the myinvois skill. I already have my MyInvois client ID and secret — save my credentials, build my supplier profile (validate my TIN against LHDN), and set up my client book.</div>
+  </div>
+<!-- ============ 08 ============ -->
+  <section class="step" data-step="8">
+    <div class="no">08<small>profile</small></div>
+    <div>
+      <h2>Save your supplier profile</h2>
+      <p>Your seller details never change between invoices — store them once, and every future invoice (including the PDF workflow) fills itself.</p>
+      <div class="gen">
+        <h3>Supplier profile builder</h3>
+        <p class="priv">Also fully local. MSIC = your 5-digit business classification code (on your SSM profile).</p>
+        <div class="grid three">
+          <div><label for="p-tin">TIN</label><input id="p-tin" placeholder="C1234567890"></div>
+          <div><label for="p-brn">BRN</label><input id="p-brn" placeholder="201901234567"></div>
+          <div><label for="p-msic">MSIC code</label><input id="p-msic" placeholder="62010"></div>
+          <div class="full"><label for="p-name">Registered company name</label><input id="p-name" placeholder="EXAMPLE SDN BHD"></div>
+          <div class="full"><label for="p-act">Business activity description</label><input id="p-act" placeholder="Software development"></div>
+          <div class="full"><label for="p-addr">Address line</label><input id="p-addr" placeholder="12, Jalan Contoh 3/4"></div>
+          <div><label for="p-city">City</label><input id="p-city" placeholder="Kuala Lumpur"></div>
+          <div><label for="p-post">Postcode</label><input id="p-post" placeholder="50000"></div>
+          <div><label for="p-state">State</label>
+            <select id="p-state">
+              <option value="01">01 Johor</option><option value="02">02 Kedah</option>
+              <option value="03">03 Kelantan</option><option value="04">04 Melaka</option>
+              <option value="05">05 N. Sembilan</option><option value="06">06 Pahang</option>
+              <option value="07">07 P. Pinang</option><option value="08">08 Perak</option>
+              <option value="09">09 Perlis</option><option value="10">10 Selangor</option>
+              <option value="11">11 Terengganu</option><option value="12">12 Sabah</option>
+              <option value="13">13 Sarawak</option><option value="14" selected>14 W.P. Kuala Lumpur</option>
+              <option value="15">15 W.P. Labuan</option><option value="16">16 W.P. Putrajaya</option>
+            </select></div>
+          <div><label for="p-phone">Phone</label><input id="p-phone" placeholder="+60123456789"></div>
+          <div><label for="p-email">Billing email</label><input id="p-email" placeholder="billing@example.com"></div>
+          <div><label for="p-inv">Next invoice no.</label><input id="p-inv" placeholder="INV-2026-0001"></div>
+        </div>
+        <label style="margin-top:8px">Save as <b>~/.myinvois-profile.json</b></label>
+        <div class="code" id="profile-out" style="max-height:280px"></div>
+      </div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 8 done"></div>
+  </section>
+
+<!-- ============ 09 ============ -->
+  <section class="step" data-step="9">
+    <div class="no">09<small>clients</small></div>
+    <div>
+      <h2>Build your client book</h2>
+      <p>Save each business client once — future invoices pick them up by name. Ask clients for their <b>TIN + BRN</b> (they're obliged to provide it when they want an e-invoice), or derive the TIN from their BRN:</p>
+      <div class="code">node skills/myinvois/scripts/myinvois.mjs search-tin BRN <span class="y">&lt;their BRN&gt;</span></div>
+      <div class="gen">
+        <h3>Client book builder</h3>
+        <p class="priv">Fully local, nothing leaves this page. Save as <b>~/.myinvois-clients.json</b>. Consumers who don't ask for an e-invoice don't go here — they fall into the monthly consolidated invoice.</p>
+        <div id="client-rows"></div>
+        <button class="add" id="add-client" type="button">+ add another client</button>
+        <label style="margin-top:12px">File content — save as <b>~/.myinvois-clients.json</b></label>
+        <div class="code" id="clients-out" style="max-height:240px"></div>
+      </div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 9 done"></div>
+  </section>
+  </main>
+  <footer class="foot">
+    <span>← <a href="guide-access.html">① get access</a></span>
+    <span>next: <a href="guide-submit.html">③ submit an e-invoice</a> →</span>
+  </footer>
+</div>
+<script src="guide.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+function profileText(){
+  const v=id=>$(id).value.trim();
+  return JSON.stringify({
+    tin:v('p-tin')||'C1234567890', brn:v('p-brn')||'201901234567',
+    sst:'NA', ttx:'NA',
+    msic:v('p-msic')||'62010', businessActivity:v('p-act')||'Software development',
+    name:v('p-name')||'EXAMPLE SDN BHD',
+    address:{line1:v('p-addr')||'12, Jalan Contoh 3/4', city:v('p-city')||'Kuala Lumpur',
+      postcode:v('p-post')||'50000', stateCode:$('p-state').value},
+    phone:v('p-phone')||'+60123456789', email:v('p-email')||'billing@example.com',
+    nextInvoiceNumber:v('p-inv')||'INV-2026-0001'
+  },null,2);
+}
+function renderProfile(){
+  const el=$('profile-out');
+  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
+  el.append(profileText());
+}
+['p-tin','p-brn','p-msic','p-name','p-act','p-addr','p-city','p-post','p-state','p-phone','p-email','p-inv']
+  .forEach(id=>$(id).addEventListener('input',renderProfile));
+renderProfile();
+const rowsEl=$('client-rows');
+function addClientRow(){
+  const d=document.createElement('div');
+  d.className='client-row';
+  d.innerHTML=`<input placeholder="Client name" data-k="name">
+    <input placeholder="TIN (C…)" data-k="tin">
+    <select data-k="idType"><option>BRN</option><option>NRIC</option><option>PASSPORT</option><option>ARMY</option></select>
+    <input placeholder="BRN / NRIC" data-k="idValue">
+    <input placeholder="email (optional)" data-k="email">`;
+  d.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',renderClients));
+  rowsEl.appendChild(d);
+}
+function renderClients(){
+  const clients=[...rowsEl.querySelectorAll('.client-row')].map(r=>{
+    const v=k=>r.querySelector(`[data-k="${k}"]`).value.trim();
+    return {name:v('name'),tin:v('tin'),idType:v('idType'),idValue:v('idValue'),...(v('email')?{email:v('email')}:{})};
+  }).filter(c=>c.name||c.tin);
+  const el=$('clients-out');
+  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
+  el.append(JSON.stringify({clients:clients.length?clients:[{name:'EXAMPLE CLIENT SDN BHD',tin:'C1234567890',idType:'BRN',idValue:'201901234567',email:'accounts@client.com'}]},null,2));
+}
+$('add-client').addEventListener('click',addClientRow);
+addClientRow();renderClients();
+</script>
+</body>
+</html>

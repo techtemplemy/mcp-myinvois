@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit an e-invoice — MyInvois toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css">
+</head>
+<body>
+<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html" class="on">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
+<div class="sheet">
+  <header class="head">
+    <div class="eyebrow">e-Invois · LHDN Malaysia · journey ③ · every invoice</div>
+    <h1>Submit an e-invoice</h1>
+    <p class="sub">From your own PDF — or plain details in chat — to a validated LHDN document with a share link and QR.</p>
+    <div class="meta">
+      <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 2</span> completed</div>
+    </div>
+  </header>
+  <main class="steps">
+  <div class="gen hero">
+    <h3>🤖 Fastest path — say this to Claude</h3>
+    <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
+    <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the myinvois skill. Here's my invoice PDF — turn it into a MyInvois e-invoice: extract the buyer and line items, validate the buyer TIN, show me a summary for approval BEFORE submitting, then give me the validation link and a QR image.</div>
+  </div>
+<!-- ============ 10 ============ -->
+  <section class="step" data-step="10">
+    <div class="no">10<small>submit</small></div>
+    <div>
+      <h2>Send your first e-invoice</h2>
+      <p><b>Easiest path:</b> open Claude Code anywhere and drop an invoice PDF with the words <i>“submit this to MyInvois”</i>. The <code class="k">myinvois</code> skill extracts the buyer and line items, merges your profile, shows you a summary to approve, submits, and returns the LHDN validation link.</p>
+      <p><b>Manual path:</b></p>
+      <div class="code"><span class="c"># 1. copy the template &amp; fill the ALL_CAPS placeholders</span>
+cp skills/myinvois/templates/invoice-v1.0.json my-invoice.json
+<span class="c"># 2. submit (--stamp refreshes the issue time — LHDN rejects stale ones)</span>
+node skills/myinvois/scripts/myinvois.mjs submit my-invoice.json --stamp
+<span class="c"># 3. poll until Valid, grab the share link</span>
+node skills/myinvois/scripts/myinvois.mjs submission <span class="y">&lt;submissionUid&gt;</span></div>
+      <div class="note">Going live later = repeat steps 02–06 once on the real portals (<span style="font-family:var(--mono)">mytax.hasil.gov.my</span>) and flip <code class="k">MYINVOIS_ENV=prod</code>. Nothing else changes.</div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 10 done"></div>
+  </section>
+
+<!-- ============ 11 ============ -->
+  <section class="step" data-step="11">
+    <div class="no">11<small>your pdf</small></div>
+    <div>
+      <h2>Use your own invoice PDF</h2>
+      <p>Already generate invoices elsewhere? Drop the PDF on Claude and it becomes the e-invoice source. For that to work without back-and-forth, the PDF must contain:</p>
+      <ul class="check">
+        <li><span class="req">required</span> Invoice number — unique, never reused</li>
+        <li><span class="req">required</span> Line items — description, quantity, unit price</li>
+        <li><span class="req">required</span> Buyer name — plus TIN or BRN for business buyers (or keep them in your client book, step 09)</li>
+        <li><span class="req">required</span> Totals — and the SST amount/rate if you charge tax</li>
+        <li><span class="opt">optional</span> Buyer address, email, phone — enriches the record</li>
+        <li><span class="opt">optional</span> Issue date — submission is stamped at send time anyway</li>
+      </ul>
+      <p>Your <b>seller</b> details never need to be in the PDF — they come from the profile (step 08). Anything missing, Claude asks instead of guessing.</p>
+      <div class="gen">
+        <h3>Prompt builder — state your goal</h3>
+        <p class="priv">Generates a paste-ready instruction for Claude Code (skill) or any MCP client. Attach your PDF along with it.</p>
+        <div class="grid">
+          <div><label for="p11-mode">Scenario</label>
+            <select id="p11-mode">
+              <option value="pdf" selected>I have my own invoice PDF</option>
+              <option value="details">No PDF — I'll give details in chat</option>
+              <option value="selfbill">Foreign vendor receipt → self-billed</option>
+              <option value="consol">Monthly consolidated (General Public)</option>
+            </select></div>
+          <div><label for="p11-client">Client name (optional)</label><input id="p11-client" placeholder="as saved in your client book"></div>
+          <div class="full"><label for="p11-goal">Extra goal / notes (optional)</label><input id="p11-goal" placeholder="e.g. add 8% SST on the service line; email me the QR"></div>
+        </div>
+        <label style="margin-top:8px">Paste this to Claude</label>
+        <div class="code" id="prompt-out" style="white-space:pre-wrap;padding-right:70px"></div>
+      </div>
+      <div class="note">After validation you get the LHDN link — send your client your PDF <b>plus</b> that link or its QR. Make the QR image locally with: <code class="k">npx qrcode "&lt;validation link&gt;" -o invoice-qr.png</code></div>
+    </div>
+    <div class="stat"><input type="checkbox" aria-label="Mark step 11 done"></div>
+  </section>
+  </main>
+  <footer class="foot">
+    <span>← <a href="guide-configure.html">② configure once</a></span>
+    <span>next: <a href="guide-check.html">④ check invoices</a> →</span>
+  </footer>
+</div>
+<script src="guide.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const PROMPTS={
+  pdf:(c,g)=>`Use the myinvois skill. Read the attached invoice PDF and turn it into a MyInvois e-invoice: extract the buyer and line items${c?` (the buyer is "${c}" from my client book at ~/.myinvois-clients.json)`:''}, validate the buyer TIN first, build the document from my supplier profile, show me a summary table for approval BEFORE submitting, then submit and give me the validation link and a QR image of it.${g?` Also: ${g}.`:''}`,
+  details:(c,g)=>`Use the myinvois skill. I want to issue an e-invoice${c?` to "${c}" from my client book`:''} — ask me for the line items (description, quantity, unit price) and anything else you need, validate the buyer TIN, show me a summary for approval before submitting, then submit and give me the validation link and QR.${g?` Also: ${g}.`:''}`,
+  selfbill:(c,g)=>`Use the myinvois skill. Attached is a receipt from my foreign vendor${c?` (${c})`:''}. Create a SELF-BILLED e-invoice (type 11): the vendor goes in the supplier block with generic TIN EI00000000030 and registration "NA", my company is the buyer. Show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
+  consol:(c,g)=>`Use the myinvois skill. Create this month's consolidated e-invoice to General Public (buyer TIN EI00000000010, classification code 004) — ask me for the period total, show me the summary for approval before submitting, then submit and give me the validation link.${g?` Also: ${g}.`:''}`,
+};
+function renderPrompt(){
+  const el=$('prompt-out');
+  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
+  el.append(PROMPTS[$('p11-mode').value]($('p11-client').value.trim(),$('p11-goal').value.trim()));
+}
+['p11-mode','p11-client','p11-goal'].forEach(id=>$(id).addEventListener('input',renderPrompt));
+renderPrompt();
+</script>
+</body>
+</html>

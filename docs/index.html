@@ -1,62 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyInvois toolkit — Malaysia e-Invois</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{--paper:#FAF9F5;--ink:#1B2A4A;--ink-soft:#4A5878;--rule:#D8D5CC;--chop:#C0321C;--hi:#F6C915;--desk:#E4E1D8;
---mono:'IBM Plex Mono',monospace;--disp:'Space Grotesk',sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--desk);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
-.sheet{max-width:760px;margin:48px auto;background:var(--paper);border-top:6px solid var(--ink);
-box-shadow:0 1px 2px rgba(27,42,74,.12),0 12px 40px rgba(27,42,74,.14);padding:48px 56px}
-@media(max-width:800px){.sheet{margin:0;padding:28px 22px}}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--chop)}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.08;margin:10px 0 8px}
-.sub{color:var(--ink-soft);max-width:54ch;margin-bottom:30px}
-.cards{display:grid;gap:14px}
-a.card{display:block;border:1.5px solid var(--ink);padding:18px 20px;text-decoration:none;color:var(--ink);background:#fff}
-a.card:hover{outline:3px solid var(--hi)}
-a.card .n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--chop)}
-a.card .t{font-family:var(--disp);font-weight:700;font-size:19px;margin:2px 0 4px}
-a.card .d{font-size:14px;color:var(--ink-soft)}
-.foot{margin-top:34px;padding-top:16px;border-top:2px solid var(--ink);font-family:var(--mono);font-size:12px;color:var(--ink-soft);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.foot a{color:var(--chop)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyInvois toolkit Malaysia e-Invois</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FAF9F5;
+      --ink: #1B2A4A;
+      --ink-soft: #4A5878;
+      --rule: #D8D5CC;
+      --chop: #C0321C;
+      --hi: #F6C915;
+      --desk: #E4E1D8;
+      --mono: 'IBM Plex Mono', monospace;
+      --disp: 'Space Grotesk', sans-serif;
+      --body: 'IBM Plex Sans', system-ui, sans-serif
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      background: var(--desk);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6
+    }
+
+    .sheet {
+      max-width: 760px;
+      margin: 48px auto;
+      background: var(--paper);
+      border-top: 6px solid var(--ink);
+      box-shadow: 0 1px 2px rgba(27, 42, 74, .12), 0 12px 40px rgba(27, 42, 74, .14);
+      padding: 48px 56px
+    }
+
+    @media(max-width:800px) {
+      .sheet {
+        margin: 0;
+        padding: 28px 22px
+      }
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--chop)
+    }
+
+    h1 {
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.08;
+      margin: 10px 0 8px
+    }
+
+    .sub {
+      color: var(--ink-soft);
+      max-width: 54ch;
+      margin-bottom: 30px
+    }
+
+    .cards {
+      display: grid;
+      gap: 14px
+    }
+
+    a.card {
+      display: block;
+      border: 1.5px solid var(--ink);
+      padding: 18px 20px;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff
+    }
+
+    a.card:hover {
+      outline: 3px solid var(--hi)
+    }
+
+    a.card .n {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--chop)
+    }
+
+    a.card .t {
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: 19px;
+      margin: 2px 0 4px
+    }
+
+    a.card .d {
+      font-size: 14px;
+      color: var(--ink-soft)
+    }
+
+    .foot {
+      margin-top: 34px;
+      padding-top: 16px;
+      border-top: 2px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .foot a {
+      color: var(--chop)
+    }
+  </style>
 </head>
+
 <body>
-<div class="sheet">
-  <img src="assets/logo.png" alt="Unofficial MCP &amp; SKILL.md — LHDN Malaysia einvoice"
-    style="display:block;max-width:340px;width:100%;margin:0 auto 26px">
-  <div class="eyebrow">e-Invois · LHDN Malaysia · unofficial toolkit</div>
-  <h1>MyInvois toolkit</h1>
-  <p class="sub">Issue validated Malaysian e-invoices — from Claude, any MCP client,
-  or a terminal. Everything here is static and runs in your browser; credentials
-  and data never leave your machine.</p>
-  <div class="cards">
-    <a class="card" href="setup-guide.html">
-      <span class="n">Start here · ± 20 min</span>
-      <div class="t">Setup Invois #001 — the guided walkthrough</div>
-      <div class="d">Get your API access, build your back office (supplier profile + client book), send your first e-invoice. Mock portal screens show every click.</div>
-    </a>
-    <a class="card" href="invoice-maker.html">
-      <span class="n">Every invoice</span>
-      <div class="t">Invoice Maker — print-ready invoices with LHDN QR</div>
-      <div class="d">Pick a font, drop your logo, add lines — then paste the MyInvois validation link and print/save a PDF with the verification QR embedded.</div>
-    </a>
-    <a class="card" href="https://github.com/techtemplemy/e-invoice-malaysia-mcp">
-      <span class="n">For developers</span>
-      <div class="t">Skill · MCP server · CLI — on GitHub</div>
-      <div class="d">Claude Code skill, myinvois-mcp for any MCP client, zero-dependency CLI, and every endpoint as curl.</div>
-    </a>
+  <div class="sheet">
+    <img src="assets/logo.png" alt="Unofficial MCP &amp; SKILL.md  LHDN Malaysia einvoice"
+      style="display:block;max-width:340px;width:100%;margin:0 auto 26px">
+    <div class="eyebrow">e-Invois · LHDN Malaysia · unofficial toolkit</div>
+    <h1>MyInvois toolkit</h1>
+    <p class="sub">Issue validated Malaysian e-invoices from Claude, any MCP client,
+      or a terminal. Everything here is static and runs in your browser; credentials
+      and data never leave your machine.</p>
+    <div class="cards">
+      <a class="card" href="setup-guide.html">
+        <span class="n">Start here · ± 20 min</span>
+        <div class="t">Setup Invois #001 the guided walkthrough</div>
+        <div class="d">Get your API access, build your back office (supplier profile + client book), send your first
+          e-invoice. Mock portal screens show every click.</div>
+      </a>
+      <a class="card" href="invoice-maker.html">
+        <span class="n">Every invoice</span>
+        <div class="t">Invoice Maker print-ready invoices with LHDN QR</div>
+        <div class="d">Pick a font, drop your logo, add lines then paste the MyInvois validation link and print/save a
+          PDF with the verification QR embedded.</div>
+      </a>
+      <a class="card" href="https://github.com/techtemplemy/mcp-myinvois">
+        <span class="n">For developers</span>
+        <div class="t">Skill · MCP server · CLI on GitHub</div>
+        <div class="d">Claude Code skill, myinvois-mcp for any MCP client, zero-dependency CLI, and every endpoint as
+          curl.</div>
+      </a>
+    </div>
+    <div class="foot">
+      <span>Not affiliated with LHDN</span>
+      <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a></span>
+    </div>
   </div>
-  <div class="foot">
-    <span>Not affiliated with LHDN</span>
-    <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a></span>
-  </div>
-</div>
 </body>
+
 </html>

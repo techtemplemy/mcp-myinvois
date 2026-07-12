@@ -1,4 +1,4 @@
-# MyInvois — every endpoint as curl
+# MyInvois  every endpoint as curl
 
 From the official Postman collection (`postman/EInvoicing-SDK.postman_collection.json`,
 downloaded from https://sdk.myinvois.hasil.gov.my/postman/) plus the two newer
@@ -67,7 +67,7 @@ curl -s -X PUT "$BASE/api/v1.0/documents/state/{uuid}/state" \
   -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"status":"cancelled","reason":"wrong amount"}'
 
-# 14. Reject document (buyer requests cancellation — same endpoint, different status)
+# 14. Reject document (buyer requests cancellation  same endpoint, different status)
 curl -s -X PUT "$BASE/api/v1.0/documents/state/{uuid}/state" \
   -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
   -d '{"status":"rejected","reason":"not my purchase"}'

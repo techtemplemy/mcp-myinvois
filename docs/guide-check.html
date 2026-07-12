@@ -1,72 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Check invoices — MyInvois toolkit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check invoices MyInvois toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="guide.css">
 </head>
+
 <body data-flow="check">
-<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html" class="on">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
-<div class="sheet">
-<div id="journey-flow" aria-label="journey map"></div>
-  <header class="head">
-    <div class="eyebrow">e-Invois · LHDN Malaysia · journey ④ · whenever</div>
-    <h1>Check invoices</h1>
-    <p class="sub">Status, history, and the 72-hour undo window.</p>
-    <div class="meta">
-      <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 2</span> completed</div>
-    </div>
-  </header>
-  <main class="steps">
-  <div class="gen hero">
-    <h3>🤖 Fastest path — say this to Claude</h3>
-    <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
-    <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the my-einvois-check-skill. Show my e-invoices from the last 31 days, and give me the full status and validation link for invoice INV-2026-0003.</div>
-    <button class="add" data-skill="check" type="button">📋 copy skill.md — my-einvois-check-skill (all steps on this page, any AI)</button>
+  <div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">①
+      access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a
+      href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html" class="on">④
+      check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a
+      href="invoice-maker.html">invoice maker</a></div>
+  <div class="sheet">
+    <div id="journey-flow" aria-label="journey map"></div>
+    <header class="head">
+      <div class="eyebrow">e-Invois · LHDN Malaysia · journey ④ · whenever</div>
+      <h1>Check invoices</h1>
+      <p class="sub">Status, history, and the 72-hour undo window.</p>
+      <div class="meta">
+        <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 2</span> completed</div>
+      </div>
+    </header>
+    <main class="steps">
+      <div class="gen hero">
+        <h3>FastPath- Prompt this to Claude</h3>
+        <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>mcp-myinvois</b>. Copy,
+          paste, done or do it manually with the steps below.</p>
+        <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the my-einvois-check-skill. Show my
+          e-invoices from the last 31 days, and give me the full status and validation link for invoice INV-2026-0003.
+        </div>
+        <button class="add" data-skill="check" type="button">📋 copy skill.md my-einvois-check-skill (all steps on
+          this page, any AI)</button>
+      </div>
+
+      <!-- ============ 12 ============ -->
+      <section class="step" data-step="12">
+        <div class="no">12<small>status</small></div>
+        <div>
+          <h2>Check a document or your history</h2>
+          <p>Every submitted document has a UUID and a status <b>Valid</b>, <b>Invalid</b>, <b>Cancelled</b>, or
+            <b>Submitted</b> while LHDN is still processing (usually seconds).
+          </p>
+          <div class="code"><span class="c"># everything you sent in the last 31 days</span>
+            node skills/myinvois/scripts/myinvois.mjs recent direction=Sent status=Valid
+            <span class="c"># one document in full validation results + share-link id</span>
+            node skills/myinvois/scripts/myinvois.mjs document <span class="y">&lt;uuid&gt;</span>
+          </div>
+          <p>MCP tools: <code class="k">list_recent_documents</code>, <code class="k">get_document</code>, <code
+              class="k">get_submission</code>.</p>
+          <div class="note">The verify link is <code class="k">{portal}/{uuid}/share/{longId}</code> it opens without
+            any login. That link is exactly what the QR on your invoice encodes.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 12 done"></div>
+      </section>
+
+      <!-- (Step 13 moved to guide-cancel.html) -->
+    </main>
+    <footer class="foot">
+      <span>← <a href="guide-submit.html">③ submit an e-invoice</a></span>
+      <span>next: <a href="guide-cancel.html">⑤ cancel an e-invoice</a> →</span>
+    </footer>
   </div>
-
-  <!-- ============ 12 ============ -->
-  <section class="step" data-step="12">
-    <div class="no">12<small>status</small></div>
-    <div>
-      <h2>Check a document or your history</h2>
-      <p>Every submitted document has a UUID and a status — <b>Valid</b>, <b>Invalid</b>, <b>Cancelled</b>, or <b>Submitted</b> while LHDN is still processing (usually seconds).</p>
-      <div class="code"><span class="c"># everything you sent in the last 31 days</span>
-node skills/myinvois/scripts/myinvois.mjs recent direction=Sent status=Valid
-<span class="c"># one document in full — validation results + share-link id</span>
-node skills/myinvois/scripts/myinvois.mjs document <span class="y">&lt;uuid&gt;</span></div>
-      <p>MCP tools: <code class="k">list_recent_documents</code>, <code class="k">get_document</code>, <code class="k">get_submission</code>.</p>
-      <div class="note">The verify link is <code class="k">{portal}/{uuid}/share/{longId}</code> — it opens without any login. That link is exactly what the QR on your invoice encodes.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 12 done"></div>
-  </section>
-
-  <!-- ============ 13 ============ -->
-  <section class="step" data-step="13">
-    <div class="no">13<small>undo</small></div>
-    <div>
-      <h2>Cancel (or reject) — the 72-hour window</h2>
-      <p>Issued something wrong? You have <b>72 hours</b> from validation to cancel it. After that, fix it with a credit note (type 02) referencing the original. Buyers can likewise <i>reject</i> documents they received.</p>
-      <div class="code"><span class="c"># issuer cancels own document</span>
-node skills/myinvois/scripts/myinvois.mjs cancel <span class="y">&lt;uuid&gt;</span> wrong amount, reissuing
-<span class="c"># buyer requests rejection of a received document</span>
-node skills/myinvois/scripts/myinvois.mjs reject <span class="y">&lt;uuid&gt;</span> not my purchase</div>
-      <p>MCP tools: <code class="k">cancel_document</code>, <code class="k">reject_document</code> — both require an explicit reason and your confirmation.</p>
-      <div class="note">A document that came back <b>Invalid</b> never legally existed — you may reuse its invoice number.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 13 done"></div>
-  </section>
-  </main>
-  <footer class="foot">
-    <span>← <a href="guide-submit.html">③ submit an e-invoice</a></span>
-    <span>next: <a href="guide-selfbill.html">⑤ record a supplier bill</a> →</span>
-  </footer>
-</div>
-<script src="skill-snippets.js"></script>
-<script src="guide.js"></script>
+  <script src="skill-snippets.js"></script>
+  <script src="guide.js"></script>
 
 </body>
+
 </html>

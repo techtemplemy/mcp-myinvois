@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// myinvois-mcp — unofficial MCP server for Malaysia's LHDN MyInvois e-invoice
+// myinvois-mcp  unofficial MCP server for Malaysia's LHDN MyInvois e-invoice
 // API. Not affiliated with or endorsed by LHDN. https://sdk.myinvois.hasil.gov.my/
 //
 // Safety design: nothing is ever sent to LHDN in one step. draft_invoice /
@@ -82,7 +82,7 @@ server.tool(
 
 server.tool(
   "search_tin",
-  "Find a taxpayer's TIN from their BRN, NRIC, or name (reverse lookup). Rate limited (60/min) — cache results.",
+  "Find a taxpayer's TIN from their BRN, NRIC, or name (reverse lookup). Rate limited (60/min)  cache results.",
   {
     idType: z.enum(["BRN", "NRIC", "PASSPORT", "ARMY"]).optional(),
     idValue: z.string().optional(),
@@ -107,7 +107,7 @@ server.tool(
 
 server.tool(
   "draft_invoice",
-  "Build a MyInvois e-invoice (UBL, version 1.0) from the supplier profile plus buyer and line items. Returns a human-reviewable summary and a confirmation token — it does NOT submit. Type codes: 01 invoice, 02 credit note, 03 debit note, 04 refund note, 11 self-billed invoice (foreign suppliers: buyer=you, supplier block uses TIN EI00000000030).",
+  "Build a MyInvois e-invoice (UBL, version 1.0) from the supplier profile plus buyer and line items. Returns a human-reviewable summary and a confirmation token  it does NOT submit. Type codes: 01 invoice, 02 credit note, 03 debit note, 04 refund note, 11 self-billed invoice (foreign suppliers: buyer=you, supplier block uses TIN EI00000000030).",
   {
     invoiceNumber: z.string().optional().describe("Defaults to profile.nextInvoiceNumber"),
     typeCode: z.enum(["01", "02", "03", "04", "11", "12", "13", "14"]).default("01"),
@@ -149,8 +149,8 @@ server.tool(
   { confirmationToken: z.string() },
   wrap(async ({ confirmationToken }) => {
     const p = pending.get(confirmationToken);
-    if (!p) return err("unknown or already-used confirmation token — stage the invoice again");
-    if (p.expiresAt < Date.now()) { pending.delete(confirmationToken); return err("confirmation token expired (10 min) — stage the invoice again"); }
+    if (!p) return err("unknown or already-used confirmation token  stage the invoice again");
+    if (p.expiresAt < Date.now()) { pending.delete(confirmationToken); return err("confirmation token expired (10 min)  stage the invoice again"); }
     pending.delete(confirmationToken);
 
     stampInvoice(p.doc);
@@ -167,7 +167,7 @@ server.tool(
       longId = det.json.longId;
     }
 
-    // Invalid documents never legally existed — their number can be reused,
+    // Invalid documents never legally existed  their number can be reused,
     // so only advance the counter when the document went through.
     if (polled.json.overallStatus !== "Invalid") {
       try {
@@ -176,7 +176,7 @@ server.tool(
           profile.nextInvoiceNumber = bumpInvoiceNumber(p.invoiceNumber);
           saveProfile(cfg, profile);
         }
-      } catch {}
+      } catch { }
     }
 
     return ok({

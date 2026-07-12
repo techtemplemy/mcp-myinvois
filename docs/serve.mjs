@@ -1,4 +1,4 @@
-// Tiny static server for docs/ — no dependencies. Usage: node docs/serve.mjs [port]
+// Tiny static server for docs/  no dependencies. Usage: node docs/serve.mjs [port]
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { join, extname, dirname } from "node:path";

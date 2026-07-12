@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// MyInvois (Malaysia LHDN e-Invoice) CLI — zero dependencies, Node >= 18.
+// MyInvois (Malaysia LHDN e-Invoice) CLI  zero dependencies, Node >= 18.
 // Docs: https://sdk.myinvois.hasil.gov.my/
 
 import { createHash } from "node:crypto";
@@ -37,7 +37,7 @@ function config() {
   return { env, base: ENVS[env], clientId, clientSecret, onBehalfOf: get("MYINVOIS_ONBEHALF") };
 }
 
-class CliError extends Error {}
+class CliError extends Error { }
 
 function fail(msg) {
   throw new CliError(msg);
@@ -51,7 +51,7 @@ async function getToken(cfg) {
     try {
       const c = JSON.parse(readFileSync(cacheFile, "utf8"));
       if (c.expiresAt > Date.now() + 60_000) return c.token;
-    } catch {}
+    } catch { }
   }
   const res = await fetch(`${cfg.base}/connect/token`, {
     method: "POST",

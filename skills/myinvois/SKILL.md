@@ -1,15 +1,15 @@
 ---
 name: myinvois
-description: Submit, check, and cancel Malaysia LHDN e-invoices (MyInvois / e-Invois) via the official API — guided setup, back-office config (supplier profile, client book), and turning an invoice PDF into a validated e-invoice. Use when the user mentions Malaysia e-invoice, einvois, MyInvois, LHDN, TIN validation/search, or wants to submit an invoice PDF to LHDN.
+description: Submit, check, and cancel Malaysia LHDN e-invoices (MyInvois / e-Invois) via the official API  guided setup, back-office config (supplier profile, client book), and turning an invoice PDF into a validated e-invoice. Use when the user mentions Malaysia e-invoice, einvois, MyInvois, LHDN, TIN validation/search, or wants to submit an invoice PDF to LHDN.
 ---
 
 # MyInvois (Malaysia LHDN e-Invoice)
 
 Zero-dependency Node CLI wrapping the official MyInvois API (sandbox + production).
-**This folder is fully standalone** — copy or symlink it into `~/.claude/skills/`
+**This folder is fully standalone**  copy or symlink it into `~/.claude/skills/`
 and it works without the rest of the repo (no npm install, Node ≥ 18 only).
 A visual companion guide with the same flow lives at `docs/setup-guide.html`
-in the repo (plain static HTML — users can just double-click it).
+in the repo (plain static HTML  users can just double-click it).
 
 Everything is three phases. Detect where the user is and start there:
 
@@ -17,7 +17,7 @@ Everything is three phases. Detect where the user is and start there:
 |---|---|---|
 | 1 · Access | `~/.myinvois.env` exists and `token` works | Setup |
 | 2 · Back office | `~/.myinvois-profile.json` complete (no FILL_ME), optionally `~/.myinvois-clients.json` | Configure |
-| 3 · Generate | — (repeats every invoice) | Generate & send |
+| 3 · Generate |  (repeats every invoice) | Generate & send |
 
 ## Commands
 
@@ -40,12 +40,12 @@ Run with: `node <this-skill-dir>/scripts/myinvois.mjs <command> [args]`
 All print JSON to stdout; errors exit non-zero. Curl equivalents: `references/curls.md`.
 Field rules, state/tax/CLASS codes, common rejections: `references/api.md`.
 
-## Phase 1 — Setup: company-specific access
+## Phase 1  Setup: company-specific access
 
 Goal: a working `~/.myinvois.env`. Walk the user through, one step at a time:
 
-1. Sandbox portal: https://preprod-mytax.hasil.gov.my — log in with personal ID.
-2. **Switch the role dropdown to the COMPANY** (critical — an ERP registered
+1. Sandbox portal: https://preprod-mytax.hasil.gov.my  log in with personal ID.
+2. **Switch the role dropdown to the COMPANY** (critical  an ERP registered
    under the personal profile owns the wrong TIN and every company invoice
    fails with "authenticated TIN and documents TIN is not matching").
 3. MyInvois portal → Taxpayer Profile → **Register ERP** → Client ID + Secret
@@ -62,9 +62,9 @@ Goal: a working `~/.myinvois.env`. Walk the user through, one step at a time:
 Production later: same flow on https://mytax.hasil.gov.my, separate credentials,
 flip `MYINVOIS_ENV=prod`.
 
-## Phase 2 — Back office: supplier, clients, invoice defaults
+## Phase 2  Back office: supplier, clients, invoice defaults
 
-**Supplier profile — `~/.myinvois-profile.csv` (key,value; Excel-friendly) or `.json`** (collect conversationally,
+**Supplier profile  `~/.myinvois-profile.csv` (key,value; Excel-friendly) or `.json`** (collect conversationally,
 validate TIN+BRN via API before saving):
 
 ```json
@@ -78,13 +78,13 @@ validate TIN+BRN via API before saving):
 }
 ```
 
-**Client book — `~/.myinvois-clients.csv`** (columns: `name,tin,idType,idValue,email`; JSON also accepted).
+**Client book  `~/.myinvois-clients.csv`** (columns: `name,tin,idType,idValue,email`; JSON also accepted).
 When the user names a buyer, look them up here first. When a new business buyer
 appears: get their BRN → `search-tin` → `validate-tin` → offer to save them.
-Consumers who don't request an e-invoice don't go in the book — they belong in
+Consumers who don't request an e-invoice don't go in the book  they belong in
 the monthly consolidated invoice (buyer TIN `EI00000000010`, CLASS `004`).
 
-## Phase 3 — Generate & send (every invoice)
+## Phase 3  Generate & send (every invoice)
 
 **From the user's own PDF** (preferred): read the PDF; extract invoice number,
 buyer, line items (description, qty, unit price), tax, totals. The PDF must
@@ -106,13 +106,13 @@ Then, for all cases:
    data → buyer + lines). Rules in `references/api.md`. General Public buyer
    requires CLASS `004` on every line (LHDN ERR236).
 2. **Show a compact summary table (buyer, lines, totals, tax) and get an
-   explicit yes before submitting** — this is a legal tax document.
+   explicit yes before submitting**  this is a legal tax document.
 3. `submit <file> --stamp` → `submission <uid>` until Valid.
 4. Deliver: validation link `{portal}/{uuid}/share/{longId}` (from
    `document <uuid>`; portal = preprod.myinvois.hasil.gov.my or
    myinvois.hasil.gov.my). Offer a QR image: `npx qrcode "<link>" -o invoice-qr.png`.
    The user sends their client the original PDF + link/QR.
-5. Bump `nextInvoiceNumber` in the profile — but only if the document
+5. Bump `nextInvoiceNumber` in the profile  but only if the document
    validated (Invalid documents never existed; their number is reusable).
 
 If validation fails, read the error details from `document <uuid>`, fix, resubmit.
@@ -120,7 +120,7 @@ If validation fails, read the error details from `document <uuid>`, fix, resubmi
 ## Notes
 
 - Invoice version 1.0 needs no digital signature (v1.1 = XAdES, not implemented).
-- Token calls are rate-limited; the script caches tokens — don't bypass it.
+- Token calls are rate-limited; the script caches tokens  don't bypass it.
 - Credit (02) / debit (03) / refund (04) notes: same flow + `BillingReference`
   to the original document UUID.
 - Official docs: https://sdk.myinvois.hasil.gov.my/

@@ -15,10 +15,10 @@ Official SDK docs: https://sdk.myinvois.hasil.gov.my/
 |---|---|
 | Token | `POST /connect/token` (form: client_id, client_secret, grant_type=client_credentials, scope=InvoicingAPI) |
 | Validate TIN | `GET /api/v1.0/taxpayer/validate/{tin}?idType={NRIC\|BRN\|PASSPORT\|ARMY}&idValue={value}` → 200 valid, 404 invalid |
-| Submit documents | `POST /api/v1.0/documentsubmissions` — body `{documents:[{format:"JSON", codeNumber, documentHash: sha256hex, document: base64}]}` |
-| Submission status | `GET /api/v1.0/documentsubmissions/{submissionUid}` — overallStatus: InProgress / Valid / Partially Valid / Invalid |
-| Document details | `GET /api/v1.0/documents/{uuid}/details` — includes validation results and `longId` |
-| Cancel | `PUT /api/v1.0/documents/state/{uuid}/state` — body `{status:"cancelled", reason}` (within 72h of validation) |
+| Submit documents | `POST /api/v1.0/documentsubmissions`  body `{documents:[{format:"JSON", codeNumber, documentHash: sha256hex, document: base64}]}` |
+| Submission status | `GET /api/v1.0/documentsubmissions/{submissionUid}`  overallStatus: InProgress / Valid / Partially Valid / Invalid |
+| Document details | `GET /api/v1.0/documents/{uuid}/details`  includes validation results and `longId` |
+| Cancel | `PUT /api/v1.0/documents/state/{uuid}/state`  body `{status:"cancelled", reason}` (within 72h of validation) |
 
 Validation/share link: `{portal}/{uuid}/share/{longId}`
 
@@ -37,7 +37,7 @@ Validation/share link: `{portal}/{uuid}/share/{longId}`
 ## Frequently-hit field rules
 
 - **IssueDate/IssueTime** must be UTC and recent (LHDN rejects documents whose
-  issue time is too far in the past/future) — use the CLI `--stamp` flag.
+  issue time is too far in the past/future)  use the CLI `--stamp` flag.
 - **CountrySubentityCode** = Malaysian state code (2 digits): 01 Johor, 02 Kedah,
   03 Kelantan, 04 Melaka, 05 Negeri Sembilan, 06 Pahang, 07 Pulau Pinang,
   08 Perak, 09 Perlis, 10 Selangor, 11 Terengganu, 12 Sabah, 13 Sarawak,
@@ -71,4 +71,4 @@ Validation/share link: `{portal}/{uuid}/share/{longId}`
 - Duplicate `codeNumber` (invoice number) within recent submissions.
 - Hash mismatch → the exact submitted bytes must hash to `documentHash`
   (the CLI guarantees this; don't re-serialize by hand).
-- Missing SST/TTX identifications — include them with `"NA"`.
+- Missing SST/TTX identifications  include them with `"NA"`.

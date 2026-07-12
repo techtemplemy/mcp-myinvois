@@ -1,418 +1,1088 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invoice Maker — MyInvois toolkit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<style>
-:root{
-  --paper:#FAF9F5; --ink:#1B2A4A; --ink-soft:#4A5878; --rule:#D8D5CC;
-  --chop:#C0321C; --hi:#F6C915; --hi-soft:#FBF3D2; --desk:#E4E1D8;
-  --mono:'IBM Plex Mono',Consolas,monospace;
-  --disp:'Space Grotesk','IBM Plex Sans',sans-serif;
-  --body:'IBM Plex Sans',system-ui,sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--desk);color:var(--ink);font-family:var(--body);font-size:14px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Maker MyInvois toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&family=Lora:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --paper: #FAF9F5;
+      --ink: #1B2A4A;
+      --ink-soft: #4A5878;
+      --rule: #D8D5CC;
+      --chop: #C0321C;
+      --hi: #F6C915;
+      --hi-soft: #FBF3D2;
+      --desk: #E4E1D8;
+      --mono: 'IBM Plex Mono', Consolas, monospace;
+      --disp: 'Space Grotesk', 'IBM Plex Sans', sans-serif;
+      --body: 'IBM Plex Sans', system-ui, sans-serif;
+    }
 
-.topbar{background:var(--ink);color:var(--paper);padding:12px 24px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-.topbar h1{font-family:var(--disp);font-size:18px;font-weight:700}
-.topbar .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9FB0D4}
-.topbar a{color:var(--hi);font-family:var(--mono);font-size:12px;margin-left:auto}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-.wrap{display:grid;grid-template-columns:390px 1fr;gap:24px;padding:24px;max-width:1360px;margin:0 auto}
-@media(max-width:1020px){.wrap{grid-template-columns:1fr}}
+    body {
+      background: var(--desk);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 14px
+    }
 
-/* ---------- controls ---------- */
-.controls{background:var(--paper);border-top:5px solid var(--ink);padding:20px;align-self:start;
-  box-shadow:0 1px 2px rgba(27,42,74,.12),0 8px 24px rgba(27,42,74,.10)}
-.controls h2{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--chop);border-bottom:1px solid var(--rule);padding:14px 0 6px;margin-bottom:10px}
-.controls h2:first-child{padding-top:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
-.grid .full{grid-column:1/-1}
-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 2px}
-input,select,textarea{width:100%;border:1px solid var(--ink);background:#fff;padding:7px 9px;
-  font-family:var(--mono);font-size:12.5px;color:var(--ink)}
-input:focus,select:focus,textarea:focus{outline:3px solid var(--hi);outline-offset:-1px}
-input[type=color]{padding:2px;height:33px;cursor:pointer}
-textarea{resize:vertical;min-height:52px;font-family:var(--body)}
+    .topbar {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 12px 24px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap
+    }
 
-.linerow{display:grid;grid-template-columns:1fr 52px 76px 58px 26px;gap:6px;margin-bottom:6px;align-items:end}
-.linerow button{border:1.5px solid var(--chop);background:none;color:var(--chop);height:33px;cursor:pointer;font-size:14px;line-height:1}
-button.add{background:none;border:1.5px dashed var(--ink);color:var(--ink);font-family:var(--mono);
-  font-size:11px;letter-spacing:.08em;padding:8px 14px;cursor:pointer;margin-top:2px}
-button.add:hover{border-style:solid}
-.actions{display:flex;gap:10px;margin-top:16px}
-.actions button{flex:1;padding:11px;font-family:var(--disp);font-weight:700;font-size:14px;cursor:pointer;border:0}
-#btn-print{background:var(--ink);color:#fff}
-#btn-reset{background:none;border:1.5px solid var(--ink);color:var(--ink)}
-.hint{font-size:11.5px;color:var(--ink-soft);margin:6px 0 2px;line-height:1.5}
+    .topbar h1 {
+      font-family: var(--disp);
+      font-size: 18px;
+      font-weight: 700
+    }
 
-/* ---------- invoice sheet ---------- */
-.sheet-wrap{overflow-x:auto}
-.sheet{width:794px;min-height:1123px;background:#fff;margin:0 auto;padding:56px 60px;position:relative;
-  box-shadow:0 1px 2px rgba(27,42,74,.12),0 12px 40px rgba(27,42,74,.16);
-  display:flex;flex-direction:column;
-  font-family:var(--inv-body,var(--body));color:#20242C}
-.sheet .head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
-.sheet .logo{max-height:72px;max-width:220px;object-fit:contain}
-.sheet .logo.empty{display:none}
-.sheet .co{text-align:right;font-size:12.5px;line-height:1.65;color:#454B57;white-space:pre-line}
-.sheet .co b{color:#20242C;font-size:14px;font-family:var(--inv-disp,var(--disp))}
-.sheet .title{font-family:var(--inv-disp,var(--disp));font-weight:700;font-size:40px;letter-spacing:.02em;
-  color:var(--accent,#1B2A4A);margin:34px 0 4px}
-.sheet .meta{display:flex;gap:36px;font-size:12.5px;color:#454B57;border-top:2px solid var(--accent,#1B2A4A);
-  border-bottom:1px solid #E4E6EB;padding:10px 0;margin-bottom:26px}
-.sheet .meta b{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9B}
-.sheet .billto{font-size:12.5px;line-height:1.65;color:#454B57;margin-bottom:26px;white-space:pre-line}
-.sheet .billto b{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9B;margin-bottom:3px}
-.sheet .billto .bn{color:#20242C;font-size:14px;font-weight:600}
-.sheet table{width:100%;border-collapse:collapse;font-size:12.5px}
-.sheet th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--accent,#1B2A4A);
-  text-align:left;padding:8px 10px}
-.sheet th.r,.sheet td.r{text-align:right}
-.sheet td{padding:9px 10px;border-bottom:1px solid #E4E6EB;vertical-align:top}
-.sheet .totals{margin-left:auto;width:280px;font-size:12.5px;margin-top:12px}
-.sheet .totals div{display:flex;justify-content:space-between;padding:5px 10px}
-.sheet .totals .grand{border-top:2px solid var(--accent,#1B2A4A);font-weight:700;font-size:15px;
-  color:var(--accent,#1B2A4A);margin-top:4px;padding-top:9px}
-.sheet .notes{font-size:12px;color:#454B57;margin-top:26px;white-space:pre-line;line-height:1.6}
-.sheet .notes b{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8A8F9B;margin-bottom:3px}
-.sheet .foot{margin-top:auto;padding-top:28px;display:flex;gap:18px;align-items:flex-end;justify-content:space-between}
-.sheet .ei{display:flex;gap:14px;align-items:center}
-.sheet .ei .qr{width:86px;height:86px;flex:none}
-.sheet .ei .qr img,.sheet .ei .qr canvas{width:86px!important;height:86px!important}
-.sheet .ei .t{font-size:10.5px;color:#454B57;line-height:1.6;max-width:330px}
-.sheet .ei .t b{display:block;color:var(--accent,#1B2A4A);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-.sheet .ei .t .lnk{word-break:break-all;color:#8A8F9B}
-.sheet .pageno{font-size:10.5px;color:#8A8F9B;text-align:right;white-space:nowrap}
-.sheet .ei.hidden{visibility:hidden}
+    .topbar .k {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #9FB0D4
+    }
 
-.gnav{background:var(--ink);padding:10px 24px;display:flex;gap:4px 18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;letter-spacing:.06em}
-.gnav a{color:#9FB0D4;text-decoration:none;padding:2px 0}
-.gnav a.on{color:var(--hi)}
-.gnav a:hover{color:#fff}
-.gnav .sep{color:#44547A}
-#journey-flow{padding:20px 24px 0;max-width:960px;margin:0 auto}
-#journey-flow a{text-decoration:none}
-#journey-flow a:hover rect,#journey-flow a:hover polygon{stroke:var(--hi);stroke-width:3px}
-.code{position:relative;background:var(--ink);color:#DCE4F5;font-family:var(--mono);font-size:11.5px;padding:12px 64px 12px 12px;margin:4px 0 10px;overflow:auto;white-space:pre-wrap;word-break:break-word;max-height:200px;line-height:1.6}
-.copy{position:absolute;top:6px;right:6px;font-family:var(--mono);font-size:10.5px;background:transparent;color:#9FB0D4;border:1px solid #44547A;padding:3px 8px;cursor:pointer}
-.copy:hover{color:var(--hi);border-color:var(--hi)}
-.copy.ok{color:#7BD9A8;border-color:#7BD9A8}
-#btn-skillmd{background:var(--hi);color:var(--ink);border:0;font-family:var(--mono);font-size:11.5px;font-weight:600;padding:6px 12px;cursor:pointer}
+    .topbar a {
+      color: var(--hi);
+      font-family: var(--mono);
+      font-size: 12px;
+      margin-left: auto
+    }
 
-@media print{
-  body{background:#fff}
-  .gnav,#journey-flow,.topbar,.controls,.hint-print{display:none!important}
-  .wrap{display:block;padding:0;max-width:none}
-  .sheet{box-shadow:none;margin:0;width:auto;min-height:auto}
-  .sheet-wrap{overflow:visible}
-  @page{size:A4;margin:0}
-}
-</style>
+    .wrap {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 24px;
+      padding: 24px;
+      max-width: 1360px;
+      margin: 0 auto
+    }
+
+    @media(max-width:1020px) {
+      .wrap {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ---------- controls ---------- */
+    .controls {
+      background: var(--paper);
+      border-top: 5px solid var(--ink);
+      padding: 20px;
+      align-self: start;
+      box-shadow: 0 1px 2px rgba(27, 42, 74, .12), 0 8px 24px rgba(27, 42, 74, .10)
+    }
+
+    .controls h2 {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--chop);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 0 6px;
+      margin-bottom: 10px
+    }
+
+    .controls h2:first-child {
+      padding-top: 0
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 10px
+    }
+
+    .grid .full {
+      grid-column: 1/-1
+    }
+
+    label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 0 0 2px
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--ink);
+      background: #fff;
+      padding: 7px 9px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--ink)
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid var(--hi);
+      outline-offset: -1px
+    }
+
+    input[type=color] {
+      padding: 2px;
+      height: 33px;
+      cursor: pointer
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 52px;
+      font-family: var(--body)
+    }
+
+    .linerow {
+      display: grid;
+      grid-template-columns: 1fr 52px 76px 58px 26px;
+      gap: 6px;
+      margin-bottom: 6px;
+      align-items: end
+    }
+
+    .linerow button {
+      border: 1.5px solid var(--chop);
+      background: none;
+      color: var(--chop);
+      height: 33px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1
+    }
+
+    button.add {
+      background: none;
+      border: 1.5px dashed var(--ink);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      padding: 8px 14px;
+      cursor: pointer;
+      margin-top: 2px
+    }
+
+    button.add:hover {
+      border-style: solid
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px
+    }
+
+    .actions button {
+      flex: 1;
+      padding: 11px;
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border: 0
+    }
+
+    #btn-print {
+      background: var(--ink);
+      color: #fff
+    }
+
+    #btn-reset {
+      background: none;
+      border: 1.5px solid var(--ink);
+      color: var(--ink)
+    }
+
+    .hint {
+      font-size: 11.5px;
+      color: var(--ink-soft);
+      margin: 6px 0 2px;
+      line-height: 1.5
+    }
+
+    /* ---------- invoice sheet ---------- */
+    .sheet-wrap {
+      overflow-x: auto
+    }
+
+    .sheet {
+      width: 794px;
+      min-height: 1123px;
+      background: #fff;
+      margin: 0 auto;
+      padding: 56px 60px;
+      position: relative;
+      box-shadow: 0 1px 2px rgba(27, 42, 74, .12), 0 12px 40px rgba(27, 42, 74, .16);
+      display: flex;
+      flex-direction: column;
+      font-family: var(--inv-body, var(--body));
+      color: #20242C
+    }
+
+    .sheet .head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: flex-start
+    }
+
+    .sheet .logo {
+      max-height: 72px;
+      max-width: 220px;
+      object-fit: contain
+    }
+
+    .sheet .logo.empty {
+      display: none
+    }
+
+    .sheet .co {
+      text-align: right;
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #454B57;
+      white-space: pre-line
+    }
+
+    .sheet .co b {
+      color: #20242C;
+      font-size: 14px;
+      font-family: var(--inv-disp, var(--disp))
+    }
+
+    .sheet .title {
+      font-family: var(--inv-disp, var(--disp));
+      font-weight: 700;
+      font-size: 40px;
+      letter-spacing: .02em;
+      color: var(--accent, #1B2A4A);
+      margin: 34px 0 4px
+    }
+
+    .sheet .meta {
+      display: flex;
+      gap: 36px;
+      font-size: 12.5px;
+      color: #454B57;
+      border-top: 2px solid var(--accent, #1B2A4A);
+      border-bottom: 1px solid #E4E6EB;
+      padding: 10px 0;
+      margin-bottom: 26px
+    }
+
+    .sheet .meta b {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8A8F9B
+    }
+
+    .sheet .billto {
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: #454B57;
+      margin-bottom: 26px;
+      white-space: pre-line
+    }
+
+    .sheet .billto b {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8A8F9B;
+      margin-bottom: 3px
+    }
+
+    .sheet .billto .bn {
+      color: #20242C;
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px
+    }
+
+    .sheet th {
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent, #1B2A4A);
+      text-align: left;
+      padding: 8px 10px
+    }
+
+    .sheet th.r,
+    .sheet td.r {
+      text-align: right
+    }
+
+    .sheet td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #E4E6EB;
+      vertical-align: top
+    }
+
+    .sheet .totals {
+      margin-left: auto;
+      width: 280px;
+      font-size: 12.5px;
+      margin-top: 12px
+    }
+
+    .sheet .totals div {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px
+    }
+
+    .sheet .totals .grand {
+      border-top: 2px solid var(--accent, #1B2A4A);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--accent, #1B2A4A);
+      margin-top: 4px;
+      padding-top: 9px
+    }
+
+    .sheet .notes {
+      font-size: 12px;
+      color: #454B57;
+      margin-top: 26px;
+      white-space: pre-line;
+      line-height: 1.6
+    }
+
+    .sheet .notes b {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8A8F9B;
+      margin-bottom: 3px
+    }
+
+    .sheet .foot {
+      margin-top: auto;
+      padding-top: 28px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-end;
+      justify-content: space-between
+    }
+
+    .sheet .ei {
+      display: flex;
+      gap: 14px;
+      align-items: center
+    }
+
+    .sheet .ei .qr {
+      width: 86px;
+      height: 86px;
+      flex: none
+    }
+
+    .sheet .ei .qr img,
+    .sheet .ei .qr canvas {
+      width: 86px !important;
+      height: 86px !important
+    }
+
+    .sheet .ei .t {
+      font-size: 10.5px;
+      color: #454B57;
+      line-height: 1.6;
+      max-width: 330px
+    }
+
+    .sheet .ei .t b {
+      display: block;
+      color: var(--accent, #1B2A4A);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .sheet .ei .t .lnk {
+      word-break: break-all;
+      color: #8A8F9B
+    }
+
+    .sheet .pageno {
+      font-size: 10.5px;
+      color: #8A8F9B;
+      text-align: right;
+      white-space: nowrap
+    }
+
+    .sheet .ei.hidden {
+      visibility: hidden
+    }
+
+    .gnav {
+      background: var(--ink);
+      padding: 10px 24px;
+      display: flex;
+      gap: 4px 18px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .06em
+    }
+
+    .gnav a {
+      color: #9FB0D4;
+      text-decoration: none;
+      padding: 2px 0
+    }
+
+    .gnav a.on {
+      color: var(--hi)
+    }
+
+    .gnav a:hover {
+      color: #fff
+    }
+
+    .gnav .sep {
+      color: #44547A
+    }
+
+    #journey-flow {
+      padding: 20px 24px 0;
+      max-width: 960px;
+      margin: 0 auto
+    }
+
+    #journey-flow a {
+      text-decoration: none
+    }
+
+    #journey-flow a:hover rect,
+    #journey-flow a:hover polygon {
+      stroke: var(--hi);
+      stroke-width: 3px
+    }
+
+    .code {
+      position: relative;
+      background: var(--ink);
+      color: #DCE4F5;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 12px 64px 12px 12px;
+      margin: 4px 0 10px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 200px;
+      line-height: 1.6
+    }
+
+    .copy {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      background: transparent;
+      color: #9FB0D4;
+      border: 1px solid #44547A;
+      padding: 3px 8px;
+      cursor: pointer
+    }
+
+    .copy:hover {
+      color: var(--hi);
+      border-color: var(--hi)
+    }
+
+    .copy.ok {
+      color: #7BD9A8;
+      border-color: #7BD9A8
+    }
+
+    #btn-skillmd {
+      background: var(--hi);
+      color: var(--ink);
+      border: 0;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      cursor: pointer
+    }
+
+    /* ---------- floating print button ---------- */
+    #fab-print {
+      position: fixed;
+      top: 14px;
+      right: 20px;
+      z-index: 9999;
+      background: var(--hi);
+      color: var(--ink);
+      border: 0;
+      font-family: var(--disp);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 9px 18px;
+      cursor: pointer;
+      letter-spacing: .02em;
+      box-shadow: 0 2px 10px rgba(27, 42, 74, .28);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    #fab-print:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(27, 42, 74, .34)
+    }
+
+    #fab-print svg {
+      flex: none
+    }
+
+    /* ---------- json config panel (bottom full-width) ---------- */
+    .cfg-panel {
+      grid-column: 1/-1;
+      background: var(--paper);
+      border-top: 4px solid var(--ink);
+      box-shadow: 0 1px 2px rgba(27, 42, 74, .10);
+      margin-top: 0;
+    }
+
+    .cfg-panel details {
+      padding: 0
+    }
+
+    .cfg-panel summary {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      list-style: none;
+      padding: 12px 20px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--chop);
+      border: 0;
+      user-select: none;
+    }
+
+    .cfg-panel summary::-webkit-details-marker {
+      display: none
+    }
+
+    .cfg-panel summary .arrow {
+      margin-left: auto;
+      font-size: 14px;
+      transition: transform .2s
+    }
+
+    details[open] .arrow {
+      transform: rotate(180deg)
+    }
+
+    .cfg-panel .inner {
+      padding: 12px 20px 16px;
+    }
+
+    .cfg-panel .inner .hint {
+      margin: 0 0 6px
+    }
+
+    .cfg-panel .inner label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin: 10px 0 2px
+    }
+
+    .cfg-panel .inner #cfg-in {
+      width: 100%;
+      border: 1px solid var(--ink);
+      background: #fff;
+      padding: 7px 9px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: var(--ink);
+      resize: vertical;
+      min-height: 52px
+    }
+
+    .cfg-panel .inner #cfg-apply {
+      margin-top: 4px
+    }
+
+    @media print {
+      body {
+        background: #fff
+      }
+
+      .gnav,
+      #journey-flow,
+      .topbar,
+      .controls,
+      .hint-print,
+      #fab-print,
+      .cfg-panel {
+        display: none !important
+      }
+
+      .wrap {
+        display: block;
+        padding: 0;
+        max-width: none
+      }
+
+      .sheet {
+        box-shadow: none;
+        margin: 0;
+        width: auto;
+        min-height: auto
+      }
+
+      .sheet-wrap {
+        overflow: visible
+      }
+
+      @page {
+        size: A4;
+        margin: 0
+      }
+    }
+  </style>
 </head>
+
 <body data-flow="maker">
 
-<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html" class="on">invoice maker</a></div>
-<div class="topbar">
-  <h1>Invoice Maker</h1>
-  <span class="k">static · everything stays in your browser</span>
-  <button id="btn-skillmd" type="button" style="margin-left:auto">📋 copy skill.md (this invoice)</button>
-  <a href="setup-guide.html" style="margin-left:0">← guide hub</a>
-</div>
-
-<div id="journey-flow" aria-label="journey map"></div>
-
-<div class="wrap">
-  <!-- ============ controls ============ -->
-  <div class="controls">
-    <h2>Look &amp; feel</h2>
-    <div class="grid">
-      <div><label for="c-font">Font pairing</label>
-        <select id="c-font">
-          <option value="modern" selected>Modern — Space Grotesk + Inter</option>
-          <option value="classic">Classic — Playfair + Lora</option>
-          <option value="ledger">Ledger — IBM Plex Mono</option>
-          <option value="plain">Plain — system default</option>
-        </select></div>
-      <div><label for="c-accent">Accent colour</label><input type="color" id="c-accent" value="#1B2A4A"></div>
-      <div><label for="c-logo">Logo (PNG/JPG/SVG)</label><input type="file" id="c-logo" accept="image/*"></div>
-      <div><label>&nbsp;</label><button class="add" id="c-logo-clear" type="button" style="width:100%">remove logo</button></div>
-      <div class="full"><label for="c-title">Document title</label><input id="c-title" value="INVOICE"></div>
+  <div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html">①
+      access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a
+      href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span
+      class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a
+      href="invoice-maker.html" class="on">invoice maker</a></div>
+  <div class="topbar">
+    <h1>Invoice Maker</h1>
+    <span class="k">static · everything stays in your browser</span>
+    <div style="margin-left:auto; display:flex; gap:8px">
+      <button id="btn-skillmd" type="button">📋 copy skill.md (this invoice)</button>
+      <button id="btn-save-skillmd" type="button"
+        style="background:#fff;border:1px solid var(--hi);color:var(--ink);font-family:var(--mono);font-size:11.5px;font-weight:600;padding:6px 12px;cursor:pointer">💾
+        save .md</button>
     </div>
+    <a href="setup-guide.html" style="margin-left:0">← guide hub</a>
+  </div>
+  <button id="fab-print" type="button" title="Save as PDF">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9" />
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+      <rect x="6" y="14" width="12" height="8" />
+    </svg>
+    Print / Save PDF
+  </button>
 
-    <h2>Seller (you)</h2>
-    <div class="grid">
-      <div class="full"><label for="s-name">Company name</label><input id="s-name" placeholder=" yourcompany SDN. BHD."></div>
-      <div><label for="s-tin">TIN</label><input id="s-tin" placeholder="C60671836020"></div>
-      <div><label for="s-brn">BRN</label><input id="s-brn" placeholder="202601018681"></div>
-      <div class="full"><label for="s-addr">Address &amp; contact (free lines)</label>
-        <textarea id="s-addr" placeholder="Northview, Lorong Kerinchi 0, Bangsar South
+  <div id="journey-flow" aria-label="journey map"></div>
+
+  <div class="wrap">
+    <!-- ============ controls ============ -->
+    <div class="controls">
+      <h2>Look &amp; feel</h2>
+      <div class="grid">
+        <div><label for="c-font">Font pairing</label>
+          <select id="c-font">
+            <option value="modern" selected>Modern Space Grotesk + Inter</option>
+            <option value="classic">Classic Playfair + Lora</option>
+            <option value="ledger">Ledger IBM Plex Mono</option>
+            <option value="plain">Plain system default</option>
+          </select>
+        </div>
+        <div><label for="c-accent">Accent colour</label><input type="color" id="c-accent" value="#1B2A4A"></div>
+        <div><label for="c-logo">Logo (PNG/JPG/SVG)</label><input type="file" id="c-logo" accept="image/*"></div>
+        <div><label>&nbsp;</label><button class="add" id="c-logo-clear" type="button" style="width:100%">remove
+            logo</button></div>
+        <div class="full"><label for="c-title">Document title</label><input id="c-title" value="INVOICE"></div>
+      </div>
+
+      <h2>Seller (you)</h2>
+      <div class="grid">
+        <div class="full"><label for="s-name">Company name</label><input id="s-name"
+            placeholder=" yourcompany SDN. BHD."></div>
+        <div><label for="s-tin">TIN</label><input id="s-tin" placeholder="C5171836020"></div>
+        <div><label for="s-brn">BRN</label><input id="s-brn" placeholder="202601018651"></div>
+        <div class="full"><label for="s-addr">Address &amp; contact (free lines)</label>
+          <textarea id="s-addr" placeholder="Northview, Lorong Kerinchi 0, Bangsar South
 59200 Kuala Lumpur
-+60 18 767 8055 · billing@yourcompany.abc"></textarea></div>
++60 18 767 8055 · billing@yourcompany.abc"></textarea>
+        </div>
+      </div>
+
+      <h2>Invoice</h2>
+      <div class="grid">
+        <div><label for="i-no">Number</label><input id="i-no" placeholder="INV-2026-0004"></div>
+        <div><label for="i-date">Date</label><input type="date" id="i-date"></div>
+      </div>
+
+      <h2>Bill to</h2>
+      <div class="grid">
+        <div class="full"><label for="b-name">Client name</label><input id="b-name" placeholder="COHNTOH SDN BHD"></div>
+        <div><label for="b-tin">TIN (optional)</label><input id="b-tin" placeholder="C1234567890"></div>
+        <div><label for="b-brn">BRN (optional)</label><input id="b-brn" placeholder="201901234567"></div>
+        <div class="full"><label for="b-addr">Address (free lines)</label><textarea id="b-addr"></textarea></div>
+      </div>
+
+      <h2>Line items</h2>
+      <div id="lines"></div>
+      <button class="add" id="add-line" type="button">+ add line</button>
+
+      <h2>Notes / payment terms</h2>
+      <textarea id="i-notes"
+        placeholder="Payment within 14 days to Maybank 5123 4567 8901 (yourcompany SDN BHD)."></textarea>
+
+      <h2>e-Invoice validation (after LHDN submit)</h2>
+      <div class="grid">
+        <div class="full"><label for="e-link">Validation link → prints as QR</label><input id="e-link"
+            placeholder="https://myinvois.hasil.gov.my/<uuid>/share/<longId>"></div>
+      </div>
+      <p class="hint">Submit via the myinvois skill / MCP / CLI first, paste the returned link here the QR proves this
+        invoice is a registered e-invoice.</p>
+
+      <div class="actions">
+        <button id="btn-reset" type="button" style="width:100%">Reset all fields</button>
+      </div>
+      <p class="hint">Fields persist in this browser automatically. Use the <b>Print / Save PDF</b> button (top-right)
+        to save.</p>
     </div>
 
-    <h2>Invoice</h2>
-    <div class="grid">
-      <div><label for="i-no">Number</label><input id="i-no" placeholder="INV-2026-0004"></div>
-      <div><label for="i-date">Date</label><input type="date" id="i-date"></div>
+    <!-- ============ preview ============ -->
+    <div class="sheet-wrap">
+      <div class="sheet" id="sheet">
+        <div class="head">
+          <img class="logo empty" id="v-logo" alt="logo">
+          <div class="co" id="v-seller"></div>
+        </div>
+        <div class="title" id="v-title">INVOICE</div>
+        <div class="meta">
+          <div><b>Invoice no.</b><span id="v-no">—</span></div>
+          <div><b>Date</b><span id="v-date">—</span></div>
+          <div><b>Currency</b><span>MYR</span></div>
+        </div>
+        <div class="billto"><b>Bill to</b><span class="bn" id="v-bname">—</span><span id="v-bdetail"></span></div>
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th class="r">Qty</th>
+              <th class="r">Unit price</th>
+              <th class="r">Tax</th>
+              <th class="r">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="v-lines"></tbody>
+        </table>
+        <div class="totals">
+          <div><span>Subtotal</span><span id="v-sub">RM 0.00</span></div>
+          <div><span>Tax (SST)</span><span id="v-tax">RM 0.00</span></div>
+          <div class="grand"><span>Total payable</span><span id="v-total">RM 0.00</span></div>
+        </div>
+        <div class="notes" id="v-notes-wrap"><b>Notes</b><span id="v-notes"></span></div>
+        <div class="foot">
+          <div class="ei hidden" id="v-ei">
+            <div class="qr" id="v-qr"></div>
+            <div class="t"><b>LHDN validated e-invoice</b>
+              Scan to verify on MyInvois.<span class="lnk" id="v-link"></span></div>
+          </div>
+          <div class="pageno" id="v-footno"></div>
+        </div>
+      </div>
     </div>
-
-    <h2>Bill to</h2>
-    <div class="grid">
-      <div class="full"><label for="b-name">Client name</label><input id="b-name" placeholder="ACME SDN BHD"></div>
-      <div><label for="b-tin">TIN (optional)</label><input id="b-tin" placeholder="C1234567890"></div>
-      <div><label for="b-brn">BRN (optional)</label><input id="b-brn" placeholder="201901234567"></div>
-      <div class="full"><label for="b-addr">Address (free lines)</label><textarea id="b-addr"></textarea></div>
-    </div>
-
-    <h2>Line items</h2>
-    <div id="lines"></div>
-    <button class="add" id="add-line" type="button">+ add line</button>
-
-    <h2>Notes / payment terms</h2>
-    <textarea id="i-notes" placeholder="Payment within 14 days to Maybank 5123 4567 8901 (yourcompany SDN BHD)."></textarea>
-
-    <h2>e-Invoice validation (after LHDN submit)</h2>
-    <div class="grid">
-      <div class="full"><label for="e-link">Validation link → prints as QR</label><input id="e-link" placeholder="https://myinvois.hasil.gov.my/<uuid>/share/<longId>"></div>
-    </div>
-    <p class="hint">Submit via the myinvois skill / MCP / CLI first, paste the returned link here — the QR proves this invoice is a registered e-invoice.</p>
-
-    <h2>Config — save / restore</h2>
-    <p class="hint" style="margin-top:0">This JSON is the whole invoice setup — copy it to save or share; paste one below to restore. The 📋 skill.md button up top wraps it with instructions for any AI. Logo is not embedded.</p>
-    <div class="code" id="cfg-out"></div>
-    <label for="cfg-in">Paste config JSON to restore</label>
-    <textarea id="cfg-in" placeholder='{ "seller": { ... }, "lines": [ ... ] }'></textarea>
-    <button class="add" id="cfg-apply" type="button">apply config</button>
-
-    <div class="actions">
-      <button id="btn-print" type="button">Print / save PDF</button>
-      <button id="btn-reset" type="button">Reset</button>
-    </div>
-    <p class="hint">Printing uses your browser's "Save as PDF". Fields persist in this browser automatically.</p>
   </div>
 
-  <!-- ============ preview ============ -->
-  <div class="sheet-wrap"><div class="sheet" id="sheet">
-    <div class="head">
-      <img class="logo empty" id="v-logo" alt="logo">
-      <div class="co" id="v-seller"></div>
+  <!-- ===== Config JSON panel  full width bottom ===== -->
+  <div class="wrap" style="padding-top:0">
+    <div class="cfg-panel" style="grid-column:1/-1;width:100%">
+      <details>
+        <summary>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+          Config save / restore
+          <span style="font-size:11px;text-transform:none;letter-spacing:0;color:var(--ink-soft);margin-left:4px">— copy
+            JSON to save; paste to restore</span>
+          <span class="arrow">▼</span>
+        </summary>
+        <div class="inner">
+          <p class="hint">This JSON is the whole invoice setup copy it to save or share; paste one below to restore.
+            The 📋 skill.md button wraps it with AI instructions. Logo is not embedded.</p>
+          <div class="code" id="cfg-out" style="max-height:320px"></div>
+          <label for="cfg-in">Paste config JSON to restore</label>
+          <textarea id="cfg-in" placeholder='{ "seller": { ... }, "lines": [ ... ] }'></textarea>
+          <button class="add" id="cfg-apply" type="button">apply config</button>
+        </div>
+      </details>
     </div>
-    <div class="title" id="v-title">INVOICE</div>
-    <div class="meta">
-      <div><b>Invoice no.</b><span id="v-no">—</span></div>
-      <div><b>Date</b><span id="v-date">—</span></div>
-      <div><b>Currency</b><span>MYR</span></div>
-    </div>
-    <div class="billto"><b>Bill to</b><span class="bn" id="v-bname">—</span><span id="v-bdetail"></span></div>
-    <table>
-      <thead><tr><th>Description</th><th class="r">Qty</th><th class="r">Unit price</th><th class="r">Tax</th><th class="r">Amount</th></tr></thead>
-      <tbody id="v-lines"></tbody>
-    </table>
-    <div class="totals">
-      <div><span>Subtotal</span><span id="v-sub">RM 0.00</span></div>
-      <div><span>Tax (SST)</span><span id="v-tax">RM 0.00</span></div>
-      <div class="grand"><span>Total payable</span><span id="v-total">RM 0.00</span></div>
-    </div>
-    <div class="notes" id="v-notes-wrap"><b>Notes</b><span id="v-notes"></span></div>
-    <div class="foot">
-      <div class="ei hidden" id="v-ei">
-        <div class="qr" id="v-qr"></div>
-        <div class="t"><b>LHDN validated e-invoice</b>
-          Scan to verify on MyInvois.<span class="lnk" id="v-link"></span></div>
-      </div>
-      <div class="pageno" id="v-footno"></div>
-    </div>
-  </div></div>
-</div>
+  </div>
 
-<script src="guide.js"></script>
-<script>
-const $=id=>document.getElementById(id);
-const FONTS={
-  modern:{disp:"'Space Grotesk',sans-serif",body:"'Inter',sans-serif"},
-  classic:{disp:"'Playfair Display',serif",body:"'Lora',serif"},
-  ledger:{disp:"'IBM Plex Mono',monospace",body:"'IBM Plex Mono',monospace"},
-  plain:{disp:"system-ui,sans-serif",body:"system-ui,sans-serif"},
-};
-const FIELDS=['c-font','c-accent','c-title','s-name','s-tin','s-brn','s-addr','i-no','i-date','b-name','b-tin','b-brn','b-addr','i-notes','e-link'];
-let logoData='';
-const rm=n=>'RM '+n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+  <script src="guide.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const FONTS = {
+      modern: { disp: "'Space Grotesk',sans-serif", body: "'Inter',sans-serif" },
+      classic: { disp: "'Playfair Display',serif", body: "'Lora',serif" },
+      ledger: { disp: "'IBM Plex Mono',monospace", body: "'IBM Plex Mono',monospace" },
+      plain: { disp: "system-ui,sans-serif", body: "system-ui,sans-serif" },
+    };
+    const FIELDS = ['c-font', 'c-accent', 'c-title', 's-name', 's-tin', 's-brn', 's-addr', 'i-no', 'i-date', 'b-name', 'b-tin', 'b-brn', 'b-addr', 'i-notes', 'e-link'];
+    let logoData = '';
+    const rm = n => 'RM ' + n.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-// ---------- line rows ----------
-function addLine(v){
-  const d=document.createElement('div');
-  d.className='linerow';
-  d.innerHTML=`<div><label>Description</label><input data-k="desc"></div>
+    // ---------- line rows ----------
+    function addLine(v) {
+      const d = document.createElement('div');
+      d.className = 'linerow';
+      d.innerHTML = `<div><label>Description</label><input data-k="desc"></div>
     <div><label>Qty</label><input data-k="qty" type="number" min="0" step="any" value="1"></div>
     <div><label>Price</label><input data-k="price" type="number" min="0" step="any" value="0"></div>
     <div><label>SST%</label><select data-k="tax"><option value="0">0</option><option value="0.06">6</option><option value="0.08">8</option><option value="0.1">10</option></select></div>
     <button type="button" title="remove line">×</button>`;
-  if(v){d.querySelector('[data-k=desc]').value=v.desc||'';d.querySelector('[data-k=qty]').value=v.qty??1;
-    d.querySelector('[data-k=price]').value=v.price??0;d.querySelector('[data-k=tax]').value=v.tax??'0';}
-  d.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',render));
-  d.querySelector('button').addEventListener('click',()=>{d.remove();render();});
-  $('lines').appendChild(d);
-}
+      if (v) {
+        d.querySelector('[data-k=desc]').value = v.desc || ''; d.querySelector('[data-k=qty]').value = v.qty ?? 1;
+        d.querySelector('[data-k=price]').value = v.price ?? 0; d.querySelector('[data-k=tax]').value = v.tax ?? '0';
+      }
+      d.querySelectorAll('input,select').forEach(i => i.addEventListener('input', render));
+      d.querySelector('button').addEventListener('click', () => { d.remove(); render(); });
+      $('lines').appendChild(d);
+    }
 
-// ---------- render ----------
-function render(){
-  const f=FONTS[$('c-font').value]||FONTS.modern;
-  const sheet=$('sheet');
-  sheet.style.setProperty('--inv-disp',f.disp);
-  sheet.style.setProperty('--inv-body',f.body);
-  sheet.style.setProperty('--accent',$('c-accent').value);
+    // ---------- render ----------
+    function render() {
+      const f = FONTS[$('c-font').value] || FONTS.modern;
+      const sheet = $('sheet');
+      sheet.style.setProperty('--inv-disp', f.disp);
+      sheet.style.setProperty('--inv-body', f.body);
+      sheet.style.setProperty('--accent', $('c-accent').value);
 
-  $('v-logo').src=logoData||'';
-  $('v-logo').classList.toggle('empty',!logoData);
-  $('v-title').textContent=$('c-title').value||'INVOICE';
+      $('v-logo').src = logoData || '';
+      $('v-logo').classList.toggle('empty', !logoData);
+      $('v-title').textContent = $('c-title').value || 'INVOICE';
 
-  const sd=[$('s-name').value&&('<b>'+esc($('s-name').value)+'</b>'),
-    [$('s-tin').value&&'TIN '+esc($('s-tin').value),$('s-brn').value&&'BRN '+esc($('s-brn').value)].filter(Boolean).join(' · '),
-    esc($('s-addr').value)].filter(Boolean).join('\n');
-  $('v-seller').innerHTML=sd||'<b>Your company</b>';
+      const sd = [$('s-name').value && ('<b>' + esc($('s-name').value) + '</b>'),
+      [$('s-tin').value && 'TIN ' + esc($('s-tin').value), $('s-brn').value && 'BRN ' + esc($('s-brn').value)].filter(Boolean).join(' · '),
+      esc($('s-addr').value)].filter(Boolean).join('\n');
+      $('v-seller').innerHTML = sd || '<b>Your company</b>';
 
-  $('v-no').textContent=$('i-no').value||'—';
-  $('v-date').textContent=$('i-date').value||'—';
-  $('v-bname').textContent=$('b-name').value||'—';
-  $('v-bdetail').textContent=['\n',[$('b-tin').value&&'TIN '+$('b-tin').value,$('b-brn').value&&'BRN '+$('b-brn').value].filter(Boolean).join(' · '),
-    $('b-addr').value&&'\n'+$('b-addr').value].filter(Boolean).join('');
+      $('v-no').textContent = $('i-no').value || '—';
+      $('v-date').textContent = $('i-date').value || '—';
+      $('v-bname').textContent = $('b-name').value || '—';
+      $('v-bdetail').textContent = ['\n', [$('b-tin').value && 'TIN ' + $('b-tin').value, $('b-brn').value && 'BRN ' + $('b-brn').value].filter(Boolean).join(' · '),
+        $('b-addr').value && '\n' + $('b-addr').value].filter(Boolean).join('');
 
-  let sub=0,tax=0,rows='';
-  document.querySelectorAll('.linerow').forEach(r=>{
-    const v=k=>r.querySelector(`[data-k="${k}"]`).value;
-    const qty=parseFloat(v('qty'))||0, price=parseFloat(v('price'))||0, rate=parseFloat(v('tax'))||0;
-    const ext=Math.round(qty*price*100)/100, t=Math.round(ext*rate*100)/100;
-    if(!v('desc')&&!ext)return;
-    sub+=ext;tax+=t;
-    rows+=`<tr><td>${esc(v('desc'))}</td><td class="r">${qty}</td><td class="r">${rm(price)}</td><td class="r">${rate?(rate*100)+'%':'—'}</td><td class="r">${rm(ext+t)}</td></tr>`;
-  });
-  $('v-lines').innerHTML=rows||'<tr><td colspan="5" style="color:#8A8F9B">No items yet</td></tr>';
-  $('v-sub').textContent=rm(sub);$('v-tax').textContent=rm(tax);$('v-total').textContent=rm(sub+tax);
+      let sub = 0, tax = 0, rows = '';
+      document.querySelectorAll('.linerow').forEach(r => {
+        const v = k => r.querySelector(`[data-k="${k}"]`).value;
+        const qty = parseFloat(v('qty')) || 0, price = parseFloat(v('price')) || 0, rate = parseFloat(v('tax')) || 0;
+        const ext = Math.round(qty * price * 100) / 100, t = Math.round(ext * rate * 100) / 100;
+        if (!v('desc') && !ext) return;
+        sub += ext; tax += t;
+        rows += `<tr><td>${esc(v('desc'))}</td><td class="r">${qty}</td><td class="r">${rm(price)}</td><td class="r">${rate ? (rate * 100) + '%' : '—'}</td><td class="r">${rm(ext + t)}</td></tr>`;
+      });
+      $('v-lines').innerHTML = rows || '<tr><td colspan="5" style="color:#8A8F9B">No items yet</td></tr>';
+      $('v-sub').textContent = rm(sub); $('v-tax').textContent = rm(tax); $('v-total').textContent = rm(sub + tax);
 
-  $('v-notes').textContent=$('i-notes').value;
-  $('v-notes-wrap').style.display=$('i-notes').value?'':'none';
-  $('v-footno').textContent=($('i-no').value?$('i-no').value+' · ':'')+'generated locally · myinvois toolkit';
+      $('v-notes').textContent = $('i-notes').value;
+      $('v-notes-wrap').style.display = $('i-notes').value ? '' : 'none';
+      $('v-footno').textContent = ($('i-no').value ? $('i-no').value + ' · ' : '')
+      // +  'generated locally · myinvois toolkit';
 
-  const link=$('e-link').value.trim();
-  $('v-ei').classList.toggle('hidden',!link);
-  $('v-link').textContent=link;
-  $('v-qr').innerHTML='';
-  if(link&&window.QRCode){try{new QRCode($('v-qr'),{text:link,width:86,height:86,correctLevel:QRCode.CorrectLevel.M});}catch{}}
+      const link = $('e-link').value.trim();
+      $('v-ei').classList.toggle('hidden', !link);
+      $('v-link').textContent = link;
+      $('v-qr').innerHTML = '';
+      if (link && window.QRCode) { try { new QRCode($('v-qr'), { text: link, width: 86, height: 86, correctLevel: QRCode.CorrectLevel.M }); } catch { } }
 
-  save();
-}
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+      save();
+    }
+    function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-// ---------- persistence ----------
-function save(){
-  try{
-    const lines=[...document.querySelectorAll('.linerow')].map(r=>{
-      const v=k=>r.querySelector(`[data-k="${k}"]`).value;
-      return {desc:v('desc'),qty:v('qty'),price:v('price'),tax:v('tax')};
+    // ---------- persistence ----------
+    function save() {
+      try {
+        const lines = [...document.querySelectorAll('.linerow')].map(r => {
+          const v = k => r.querySelector(`[data-k="${k}"]`).value;
+          return { desc: v('desc'), qty: v('qty'), price: v('price'), tax: v('tax') };
+        });
+        localStorage.setItem('im-state', JSON.stringify({
+          f: Object.fromEntries(FIELDS.map(id => [id, $(id).value])), lines, logo: logoData,
+        }));
+      } catch { }
+    }
+    function load() {
+      let s; try { s = JSON.parse(localStorage.getItem('im-state')); } catch { }
+      if (s?.f) FIELDS.forEach(id => { if (s.f[id] !== undefined) $(id).value = s.f[id]; });
+      logoData = s?.logo || '';
+      (s?.lines?.length ? s.lines : [null]).forEach(addLine);
+      if (!$('i-date').value) $('i-date').value = new Date().toISOString().slice(0, 10);
+    }
+
+    // ---------- wiring ----------
+    FIELDS.forEach(id => $(id).addEventListener('input', render));
+    $('add-line').addEventListener('click', () => { addLine(); render(); });
+    $('c-logo').addEventListener('change', e => {
+      const file = e.target.files[0]; if (!file) return;
+      const r = new FileReader(); r.onload = () => { logoData = r.result; render(); }; r.readAsDataURL(file);
     });
-    localStorage.setItem('im-state',JSON.stringify({
-      f:Object.fromEntries(FIELDS.map(id=>[id,$(id).value])), lines, logo:logoData,
-    }));
-  }catch{}
-}
-function load(){
-  let s;try{s=JSON.parse(localStorage.getItem('im-state'));}catch{}
-  if(s?.f)FIELDS.forEach(id=>{if(s.f[id]!==undefined)$(id).value=s.f[id];});
-  logoData=s?.logo||'';
-  (s?.lines?.length?s.lines:[null]).forEach(addLine);
-  if(!$('i-date').value)$('i-date').value=new Date().toISOString().slice(0,10);
-}
+    $('c-logo-clear').addEventListener('click', () => { logoData = ''; $('c-logo').value = ''; render(); });
+    document.getElementById('fab-print').addEventListener('click', () => window.print());
+    $('btn-reset').addEventListener('click', () => {
+      if (!confirm('Clear all fields?')) return;
+      localStorage.removeItem('im-state'); location.reload();
+    });
+    load(); render();
 
-// ---------- wiring ----------
-FIELDS.forEach(id=>$(id).addEventListener('input',render));
-$('add-line').addEventListener('click',()=>{addLine();render();});
-$('c-logo').addEventListener('change',e=>{
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();r.onload=()=>{logoData=r.result;render();};r.readAsDataURL(file);
-});
-$('c-logo-clear').addEventListener('click',()=>{logoData='';$('c-logo').value='';render();});
-$('btn-print').addEventListener('click',()=>window.print());
-$('btn-reset').addEventListener('click',()=>{
-  if(!confirm('Clear all fields?'))return;
-  localStorage.removeItem('im-state');location.reload();
-});
-load();render();
+    // ---------- config save/restore + skill.md utility ----------
+    function buildConfig() {
+      return {
+        lookAndFeel: { font: $('c-font').value, accent: $('c-accent').value, title: $('c-title').value },
+        seller: { name: $('s-name').value, tin: $('s-tin').value, brn: $('s-brn').value, addressContact: $('s-addr').value },
+        invoice: { number: $('i-no').value, date: $('i-date').value, notes: $('i-notes').value },
+        buyer: { name: $('b-name').value, tin: $('b-tin').value, brn: $('b-brn').value, address: $('b-addr').value },
+        lines: [...document.querySelectorAll('.linerow')].map(r => {
+          const v = k => r.querySelector('[data-k="' + k + '"]').value;
+          return { description: v('desc'), quantity: +v('qty') || 0, unitPrice: +v('price') || 0, sstRate: +v('tax') || 0 };
+        }).filter(l => l.description || l.unitPrice),
+        einvoiceValidationLink: $('e-link').value
+      };
+    }
+    function applyConfig(c) {
+      const L = c.lookAndFeel || {}, S = c.seller || {}, I = c.invoice || {}, B = c.buyer || {};
+      if (L.font) $('c-font').value = L.font;
+      if (L.accent) $('c-accent').value = L.accent;
+      if (L.title != null) $('c-title').value = L.title;
+      $('s-name').value = S.name || ''; $('s-tin').value = S.tin || ''; $('s-brn').value = S.brn || ''; $('s-addr').value = S.addressContact || '';
+      $('i-no').value = I.number || ''; $('i-date').value = I.date || ''; $('i-notes').value = I.notes || '';
+      $('b-name').value = B.name || ''; $('b-tin').value = B.tin || ''; $('b-brn').value = B.brn || ''; $('b-addr').value = B.address || '';
+      document.querySelectorAll('.linerow').forEach(r => r.remove());
+      ((c.lines && c.lines.length) ? c.lines : [{}]).forEach(l => addLine({ desc: l.description || '', qty: l.quantity ?? 1, price: l.unitPrice ?? 0, tax: String(l.sstRate ?? 0) }));
+      $('e-link').value = c.einvoiceValidationLink || '';
+      render();
+    }
+    function renderCfg() {
+      const el = $('cfg-out');
+      el.childNodes.forEach(n => { if (n.nodeType === 3) n.remove(); });
+      el.append(JSON.stringify(buildConfig(), null, 2));
+    }
+    const _render = render;
+    render = function () { _render(); renderCfg(); };
+    renderCfg();
+    document.addEventListener('input', () => renderCfg());
+    $('cfg-apply').addEventListener('click', () => {
+      try { applyConfig(JSON.parse($('cfg-in').value)); }
+      catch (e) { alert('That is not valid config JSON.'); }
+    });
+    $('btn-skillmd').addEventListener('click', () => {
+      const md = [
+        '---',
+        'name: my-einvois-invoice-maker-skill',
+        'description: Recreate, update and send one specific customized invoice (preset layout, seller, buyer, lines) using the Malaysia e-invoice toolkit.',
+        '---', '',
+        '# my-einvois-invoice-maker-skill  regenerate & send this exact invoice', '',
+        '## Saved invoice config (JSON)', '',
+        '\u0060\u0060\u0060json', JSON.stringify(buildConfig(), null, 2), '\u0060\u0060\u0060', '',
+        '## Instructions', '',
+        '1. Recreate the visual invoice: open https://techtemplemy.github.io/mcp-myinvois/invoice-maker.html,',
+        '   paste the JSON above into "Config  save / restore" and click apply.',
+        '   The logo is not embedded  re-upload it if needed. Print / save as PDF.',
+        '2. For a NEW issue: bump invoice.number and set today’s date first.',
+        '3. Make it a real LHDN e-invoice with my-einvois-submit-skill (or MCP',
+        '   draft_invoice -> confirm_submission via npx -y mcp-myinvois)',
+        '   using the buyer and lines above. Always show the user a summary and get',
+        '   an explicit yes before submitting.',
+        '4. Paste the returned validation link into the maker’s e-invoice field so',
+        '   the QR renders, then re-save the PDF.',
+        '5. Email the PDF + validation link to the buyer contact.'
+      ].join('\n');
+      copyText(md).then(() => {
+        const b = $('btn-skillmd'), t = b.textContent;
+        b.textContent = 'copied ✓';
+        setTimeout(() => { b.textContent = t; }, 1600);
+      });
+    });
 
-// ---------- config save/restore + skill.md utility ----------
-function buildConfig(){
-  return {
-    lookAndFeel:{ font:$('c-font').value, accent:$('c-accent').value, title:$('c-title').value },
-    seller:{ name:$('s-name').value, tin:$('s-tin').value, brn:$('s-brn').value, addressContact:$('s-addr').value },
-    invoice:{ number:$('i-no').value, date:$('i-date').value, notes:$('i-notes').value },
-    buyer:{ name:$('b-name').value, tin:$('b-tin').value, brn:$('b-brn').value, address:$('b-addr').value },
-    lines:[...document.querySelectorAll('.linerow')].map(r=>{
-      const v=k=>r.querySelector('[data-k="'+k+'"]').value;
-      return { description:v('desc'), quantity:+v('qty')||0, unitPrice:+v('price')||0, sstRate:+v('tax')||0 };
-    }).filter(l=>l.description||l.unitPrice),
-    einvoiceValidationLink:$('e-link').value
-  };
-}
-function applyConfig(c){
-  const L=c.lookAndFeel||{}, S=c.seller||{}, I=c.invoice||{}, B=c.buyer||{};
-  if(L.font)$('c-font').value=L.font;
-  if(L.accent)$('c-accent').value=L.accent;
-  if(L.title!=null)$('c-title').value=L.title;
-  $('s-name').value=S.name||'';$('s-tin').value=S.tin||'';$('s-brn').value=S.brn||'';$('s-addr').value=S.addressContact||'';
-  $('i-no').value=I.number||'';$('i-date').value=I.date||'';$('i-notes').value=I.notes||'';
-  $('b-name').value=B.name||'';$('b-tin').value=B.tin||'';$('b-brn').value=B.brn||'';$('b-addr').value=B.address||'';
-  document.querySelectorAll('.linerow').forEach(r=>r.remove());
-  ((c.lines&&c.lines.length)?c.lines:[{}]).forEach(l=>addLine({desc:l.description||'',qty:l.quantity??1,price:l.unitPrice??0,tax:String(l.sstRate??0)}));
-  $('e-link').value=c.einvoiceValidationLink||'';
-  render();
-}
-function renderCfg(){
-  const el=$('cfg-out');
-  el.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  el.append(JSON.stringify(buildConfig(),null,2));
-}
-const _render=render;
-render=function(){_render();renderCfg();};
-renderCfg();
-document.addEventListener('input',()=>renderCfg());
-$('cfg-apply').addEventListener('click',()=>{
-  try{ applyConfig(JSON.parse($('cfg-in').value)); }
-  catch(e){ alert('That is not valid config JSON.'); }
-});
-$('btn-skillmd').addEventListener('click',()=>{
-  const md=[
-    '---',
-    'name: my-einvois-invoice-maker-skill',
-    'description: Recreate, update and send one specific customized invoice (preset layout, seller, buyer, lines) using the Malaysia e-invoice toolkit.',
-    '---','',
-    '# my-einvois-invoice-maker-skill \u2014 regenerate & send this exact invoice','',
-    '## Saved invoice config (JSON)','',
-    '\u0060\u0060\u0060json', JSON.stringify(buildConfig(),null,2), '\u0060\u0060\u0060','',
-    '## Instructions','',
-    '1. Recreate the visual invoice: open https://techtemplemy.github.io/e-invoice-malaysia-mcp/invoice-maker.html,',
-    '   paste the JSON above into "Config \u2014 save / restore" and click apply.',
-    '   The logo is not embedded \u2014 re-upload it if needed. Print / save as PDF.',
-    '2. For a NEW issue: bump invoice.number and set today\u2019s date first.',
-    '3. Make it a real LHDN e-invoice with my-einvois-submit-skill (or MCP',
-    '   draft_invoice -> confirm_submission via npx -y e-invoice-malaysia-mcp)',
-    '   using the buyer and lines above. Always show the user a summary and get',
-    '   an explicit yes before submitting.',
-    '4. Paste the returned validation link into the maker\u2019s e-invoice field so',
-    '   the QR renders, then re-save the PDF.',
-    '5. Email the PDF + validation link to the buyer contact.'
-  ].join('\n');
-  copyText(md).then(()=>{
-    const b=$('btn-skillmd'), t=b.textContent;
-    b.textContent='copied \u2713';
-    setTimeout(()=>{b.textContent=t;},1600);
-  });
-});
-</script>
+    $('btn-save-skillmd').addEventListener('click', () => {
+      const md = [
+        '---',
+        'name: my-einvois-invoice-maker-skill',
+        'description: Recreate, update and send one specific customized invoice (preset layout, seller, buyer, lines) using the Malaysia e-invoice toolkit.',
+        '---', '',
+        '# my-einvois-invoice-maker-skill  regenerate & send this exact invoice', '',
+        '## Saved invoice config (JSON)', '',
+        '```json\n' + JSON.stringify(buildConfig(), null, 2) + '\n```', '',
+        '## Instructions', '',
+        '1. Recreate the visual invoice: open https://techtemplemy.github.io/mcp-myinvois/invoice-maker.html,',
+        '   paste the JSON above into "Config  save / restore" and click apply.',
+        '   The logo is not embedded  re-upload it if needed. Print / save as PDF.',
+        '2. For a NEW issue: bump invoice.number and set today’s date first.',
+        '3. Make it a real LHDN e-invoice with my-einvois-submit-skill (or MCP',
+        '   draft_invoice -> confirm_submission via npx -y mcp-myinvois)',
+        '   using the buyer and lines above. Always show the user a summary and get',
+        '   an explicit yes before submitting.',
+        '4. Paste the returned validation link into the maker’s e-invoice field so',
+        '   the QR renders, then re-save the PDF.',
+        '5. Email the PDF + validation link to the buyer contact.'
+      ].join('\n');
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'skill.md';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
 </body>
+
 </html>

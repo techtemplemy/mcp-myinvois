@@ -1,86 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyInvois API — Setup Invois</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyInvois API Setup Invois</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="guide.css">
 </head>
+
 <body data-flow="hub">
-<div class="gnav"><a href="setup-guide.html" class="on">guide hub</a><span class="sep">·</span><a href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
-<div class="sheet">
-<div id="journey-flow" aria-label="journey map"></div>
-  <header class="head">
-    <div class="eyebrow">e-Invois · LHDN Malaysia · API onboarding</div>
-    <h1>Setup Invois <span style="color:var(--chop)">#001</span></h1>
-    <p class="sub">From zero to sending validated e-invoices. Pick your journey — each page opens
-      with a copy-paste prompt for Claude, then shows every click and command for doing it
-      yourself. Plain static files; progress is saved in this browser across all pages.</p>
-    <div class="meta">
-      <div><span class="k">Issued to</span>You (taxpayer / dev)</div>
-      <div><span class="k">Supplier</span>LHDN MyInvois</div>
-      <div><span class="k">Environment</span>Sandbox first</div>
-      <div class="total"><span class="k">Overall progress</span><span id="hub-count">0 / 14</span> completed</div>
+  <div class="gnav"><a href="setup-guide.html" class="on">guide hub</a><span class="sep">·</span><a
+      href="guide-access.html">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span
+      class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④
+      check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a
+      href="invoice-maker.html">invoice maker</a></div>
+  <div class="sheet">
+    <div id="journey-flow" aria-label="journey map"></div>
+    <header class="head">
+      <div class="eyebrow">e-Invois · LHDN Malaysia · API onboarding</div>
+      <h1>Setup Invois <span style="color:var(--chop)">#001</span></h1>
+      <p class="sub">From zero to sending validated e-invoices. Pick your journey each page opens
+        with a copy-paste prompt for Claude, then shows every click and command for doing it
+        yourself. Plain static files; progress is saved in this browser across all pages.</p>
+      <div class="meta">
+        <div><span class="k">Issued to</span>You (taxpayer / dev)</div>
+        <div><span class="k">Supplier</span>LHDN MyInvois</div>
+        <div><span class="k">Environment</span>Sandbox first</div>
+        <div class="total"><span class="k">Overall progress</span><span id="hub-count">0 / 14</span> completed</div>
+      </div>
+    </header>
+    <div class="jcards">
+      <a class="jcard" href="guide-access.html" data-range="1-7">
+        <span class="n">journey ①</span>
+        <span class="t">Get access</span>
+        <span class="d">Portal walkthrough with mock screens → API keys in ~/.myinvois.env. Once ever, ±20 min.</span>
+        <span class="prog">—</span>
+      </a>
+      <a class="jcard" href="guide-configure.html" data-range="8-9">
+        <span class="n">journey ②</span>
+        <span class="t">Configure once</span>
+        <span class="d">Supplier profile + client book two local files every invoice reuses.</span>
+        <span class="prog">—</span>
+      </a>
+      <a class="jcard" href="guide-submit.html" data-range="10-11">
+        <span class="n">journey ③</span>
+        <span class="t">Submit an e-invoice</span>
+        <span class="d">Your PDF or chat details → validated LHDN document + QR. The everyday one.</span>
+        <span class="prog">—</span>
+      </a>
+      <a class="jcard" href="guide-check.html" data-range="12-13">
+        <span class="n">journey ④</span>
+        <span class="t">Check invoices</span>
+        <span class="d">Status, 31-day history, and the 72-hour cancel window.</span>
+        <span class="prog">—</span>
+      </a>
+      <a class="jcard" href="guide-selfbill.html" data-range="14-14">
+        <span class="n">journey ⑤</span>
+        <span class="t">Record a supplier bill</span>
+        <span class="d">Self-billed type 11 for foreign vendors (OpenAI, Hostinger…).</span>
+        <span class="prog">—</span>
+      </a>
+      <a class="jcard" href="invoice-maker.html">
+        <span class="n">bonus tool</span>
+        <span class="t">Invoice Maker</span>
+        <span class="d">Print-ready invoice PDF your logo, fonts, colours, and the LHDN QR embedded.</span>
+        <span class="prog">→</span>
+      </a>
     </div>
-  </header>
-  <div class="jcards">
-    <a class="jcard" href="guide-access.html" data-range="1-7">
-      <span class="n">journey ①</span>
-      <span class="t">Get access</span>
-      <span class="d">Portal walkthrough with mock screens → API keys in ~/.myinvois.env. Once ever, ±20 min.</span>
-      <span class="prog">—</span>
-    </a>
-    <a class="jcard" href="guide-configure.html" data-range="8-9">
-      <span class="n">journey ②</span>
-      <span class="t">Configure once</span>
-      <span class="d">Supplier profile + client book — two local files every invoice reuses.</span>
-      <span class="prog">—</span>
-    </a>
-    <a class="jcard" href="guide-submit.html" data-range="10-11">
-      <span class="n">journey ③</span>
-      <span class="t">Submit an e-invoice</span>
-      <span class="d">Your PDF or chat details → validated LHDN document + QR. The everyday one.</span>
-      <span class="prog">—</span>
-    </a>
-    <a class="jcard" href="guide-check.html" data-range="12-13">
-      <span class="n">journey ④</span>
-      <span class="t">Check invoices</span>
-      <span class="d">Status, 31-day history, and the 72-hour cancel window.</span>
-      <span class="prog">—</span>
-    </a>
-    <a class="jcard" href="guide-selfbill.html" data-range="14-14">
-      <span class="n">journey ⑤</span>
-      <span class="t">Record a supplier bill</span>
-      <span class="d">Self-billed type 11 for foreign vendors (OpenAI, Hostinger…).</span>
-      <span class="prog">—</span>
-    </a>
-    <a class="jcard" href="invoice-maker.html">
-      <span class="n">bonus tool</span>
-      <span class="t">Invoice Maker</span>
-      <span class="d">Print-ready invoice PDF — your logo, fonts, colours, and the LHDN QR embedded.</span>
-      <span class="prog">→</span>
-    </a>
+    <footer class="foot">
+      <span>einvoice toolkit · <a href="https://github.com/techtemplemy/mcp-myinvois">github</a></span>
+      <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a></span>
+    </footer>
   </div>
-  <footer class="foot">
-    <span>einvoice toolkit · <a href="https://github.com/techtemplemy/e-invoice-malaysia-mcp">github</a></span>
-    <span><a href="https://sdk.myinvois.hasil.gov.my/">official SDK docs</a></span>
-  </footer>
-</div>
-<script src="guide.js"></script>
-<script>
-let total=0;
-for(let i=1;i<=14;i++) if(localStorage.getItem('mi-step-'+i)==='1') total++;
-document.getElementById('hub-count').textContent=total+' / 14';
-document.querySelectorAll('.jcard[data-range]').forEach(c=>{
-  const [a,b]=c.dataset.range.split('-').map(Number);
-  let done=0;
-  for(let i=a;i<=b;i++) if(localStorage.getItem('mi-step-'+i)==='1') done++;
-  const el=c.querySelector('.prog');
-  el.textContent=done+' / '+(b-a+1);
-  if(done===b-a+1) el.classList.add('full');
-});
-</script>
+  <script src="guide.js"></script>
+  <script>
+    let total = 0;
+    for (let i = 1; i <= 14; i++) if (localStorage.getItem('mi-step-' + i) === '1') total++;
+    document.getElementById('hub-count').textContent = total + ' / 14';
+    document.querySelectorAll('.jcard[data-range]').forEach(c => {
+      const [a, b] = c.dataset.range.split('-').map(Number);
+      let done = 0;
+      for (let i = a; i <= b; i++) if (localStorage.getItem('mi-step-' + i) === '1') done++;
+      const el = c.querySelector('.prog');
+      el.textContent = done + ' / ' + (b - a + 1);
+      if (done === b - a + 1) el.classList.add('full');
+    });
+  </script>
 </body>
+
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia e-Invoice (MyInvois) Journey</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #faf9f5;
+            color: #1b2a4a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 24px;
+        }
+    </style>
+    <!-- Include Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>MyInvois Journey Overview</h1>
+        
+        <div class="mermaid">
+            flowchart TD
+                A["Do you have MyInvois<br/>API keys?"] -->|no| B["① Get access<br/>one-time only · guided walkthrough"]
+                A -->|yes| C["② Configure local<br/>optional · company &amp; clients"]
+                B --> C
+                C --> D["Day-to-day"]
+                D --> E["③ Submit an e-invoice<br/>new client → purchase → send"]
+                D --> F["④ Check invoices<br/>status · history"]
+                D --> F2["⑤ Cancel e-invoice<br/>within 72 hours"]
+                D --> G["⑥ Record a supplier bill<br/>self-billed, foreign vendors"]
+                E --> H["📧 Email PDF + QR<br/>to your client"]
+            
+                classDef ask fill:#F6C915,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+                classDef journey fill:#1B2A4A,stroke:#1B2A4A,color:#FAF9F5
+                classDef result fill:#FAF9F5,stroke:#1B2A4A,stroke-width:2px,color:#1B2A4A
+                class A,D ask
+                class B,C,E,F,F2,G journey
+                class H result
+                linkStyle default stroke:#1B2A4A,stroke-width:2px
+        </div>
+    </div>
+</body>
+</html>

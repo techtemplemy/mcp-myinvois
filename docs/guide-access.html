@@ -1,230 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get access — MyInvois toolkit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="guide.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get access MyInvois toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="guide.css">
 </head>
+
 <body data-flow="access">
-<div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html" class="on">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④ check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a href="invoice-maker.html">invoice maker</a></div>
-<div class="sheet">
-<div id="journey-flow" aria-label="journey map"></div>
-  <header class="head">
-    <div class="eyebrow">e-Invois · LHDN Malaysia · journey ① · once ever</div>
-    <h1>Get access</h1>
-    <p class="sub">From zero to working API keys for your company — about 20 minutes on the LHDN sandbox portal. Progress is saved in this browser.</p>
-    <div class="meta">
-      <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 7</span> completed</div>
-    </div>
-  </header>
-  <main class="steps">
-  <div class="gen hero">
-    <h3>🤖 Fastest path — say this to Claude</h3>
-    <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>e-invoice-malaysia-mcp</b>. Copy, paste, done — or do it manually with the steps below.</p>
-    <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the my-einvois-access-skill. I'm new to Malaysia e-invoicing — get me MyInvois sandbox API access for my company, step by step. Open the portal pages for me as we go, and save my keys to ~/.myinvois.env when we're done.</div>
-    <button class="add" data-skill="access" type="button">📋 copy skill.md — my-einvois-access-skill (all steps on this page, any AI)</button>
+  <div class="gnav"><a href="setup-guide.html">guide hub</a><span class="sep">·</span><a href="guide-access.html"
+      class="on">① access</a><span class="sep">·</span><a href="guide-configure.html">② configure</a><span
+      class="sep">·</span><a href="guide-submit.html">③ submit</a><span class="sep">·</span><a href="guide-check.html">④
+      check</a><span class="sep">·</span><a href="guide-selfbill.html">⑤ self-billed</a><span class="sep">·</span><a
+      href="invoice-maker.html">invoice maker</a></div>
+  <div class="sheet">
+    <div id="journey-flow" aria-label="journey map"></div>
+    <header class="head">
+      <div class="eyebrow">e-Invois · LHDN Malaysia · journey ① · once ever</div>
+      <h1>Get access</h1>
+      <p class="sub">From zero to working API keys for your company about 20 minutes on the LHDN sandbox portal.
+        Progress is saved in this browser.</p>
+      <div class="meta">
+        <div class="total"><span class="k">This journey</span><span id="progress-count">0 / 7</span> completed</div>
+      </div>
+    </header>
+    <main class="steps">
+      <div class="gen hero">
+        <h3>FastPath- Prompt this to Claude</h3>
+        <p class="priv">Works in Claude Code (myinvois skill) or any MCP client running <b>mcp-myinvois</b>. Copy,
+          paste, done or do it manually with the steps below.</p>
+        <div class="code" style="white-space:pre-wrap;padding-right:70px">Use the my-einvois-access-skill. I'm new to
+          Malaysia e-invoicing get me MyInvois sandbox API access for my company, step by step. Open the portal pages
+          for me as we go, and save my keys to ~/.myinvois.env when we're done.</div>
+        <button class="add" data-skill="access" type="button">📋 copy skill.md my-einvois-access-skill (all steps on
+          this page, any AI)</button>
+      </div>
+      <!-- ============ 01 ============ -->
+      <section class="step" data-step="1">
+        <div class="no">01<small>prepare</small></div>
+        <div>
+          <h2>What you need before starting</h2>
+          <ul>
+            <li><b>Your TIN</b> (Tax Identification Number) e.g. <code class="k">C1234567890</code> for a company.
+              Don't know it? Check MyTax, or e-Daftar.</li>
+            <li><b>A MyTax account</b> as the company's director or appointed representative. If the company is new to
+              MyTax, the director must register a digital certificate first (guided on the login page).</li>
+            <li><b>Node.js ≥ 18</b> on this machine for the CLI you'll verify with. Check: <code
+                class="k">node --version</code></li>
+          </ul>
+          <div class="note">Sandbox is a full copy of production with fake data nothing you submit there is a real tax
+            document. Always start here.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 1 done"></div>
+      </section>
+
+      <!-- ============ 02 ============ -->
+      <section class="step" data-step="2">
+        <div class="no">02<small>login</small></div>
+        <div>
+          <h2>Log in to the sandbox MyTax</h2>
+          <p>The sandbox has its own portal note the <b>preprod-</b> prefix:</p>
+          <div class="url">https://preprod-mytax.hasil.gov.my</div>
+
+          <div class="browser">
+            <div class="bbar">
+              <div class="bdots"><i></i><i></i><i></i></div>
+              <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my</div>
+            </div>
+            <div class="bbody">
+              <div class="mock-title">MyTax Log Masuk / Login</div>
+              <div class="mock-field"><label>Jenis Pengenalan / ID type</label>
+                <div class="mock-input sel">Identification Card No.&nbsp;</div>
+              </div>
+              <div class="mock-field"><label>No. Pengenalan / ID number</label>
+                <div class="mock-input">881212-14-5555</div>
+              </div>
+              <div style="position:relative;display:inline-block;margin:6px 0 30px">
+                <span class="mock-btn">Hantar / Submit</span>
+                <div class="chop below" style="left:-16px;top:-13px">
+                  <div class="ring"></div>
+                  <div class="n">1</div>
+                  <div class="lbl">click after filling ID</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="caption">Log in with your personal ID, then verify with your digital certificate password.</p>
+          <div class="note">First time in the sandbox? Your production MyTax account does <b>not</b> carry over
+            automatically if login fails, use “First Time Login” on the same page to activate your sandbox account
+            with the same ID.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 2 done"></div>
+      </section>
+
+      <!-- ============ 03 ============ -->
+      <section class="step" data-step="3">
+        <div class="no">03<small>role</small></div>
+        <div>
+          <h2>Switch to the company role, open MyInvois</h2>
+          <p>You land on the MyTax dashboard as an individual. To act for the company, pick its role first, then open
+            the MyInvois portal.</p>
+
+          <div class="browser">
+            <div class="bbar">
+              <div class="bdots"><i></i><i></i><i></i></div>
+              <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my Dashboard</div>
+            </div>
+            <div class="bbody">
+              <div class="mock-field" style="position:relative;max-width:340px">
+                <label>Peranan / Role</label>
+                <div class="mock-input sel">Directors of the Company EXAMPLE SDN BHD&nbsp;</div>
+                <div class="chop" style="right:-24px;top:8px;left:auto">
+                  <div class="ring"></div>
+                  <div class="n">1</div>
+                  <div class="lbl">pick company role</div>
+                </div>
+              </div>
+              <div style="height:14px"></div>
+              <div class="mock-menu">
+                <span>ezHasil Services</span><span class="on" style="position:relative">MyInvois
+                  <div class="chop flip" style="left:-14px;top:-14px">
+                    <div class="ring"></div>
+                    <div class="n">2</div>
+                    <div class="lbl">opens the portal</div>
+                  </div>
+                </span><span>e-Daftar</span><span>Profile</span>
+              </div>
+              <p style="font-size:13px;color:var(--ink-soft)">MyInvois opens in a new tab at
+                <span style="font-family:var(--mono)">preprod.myinvois.hasil.gov.my</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 3 done"></div>
+      </section>
+
+      <!-- ============ 04 ============ -->
+      <section class="step" data-step="4">
+        <div class="no">04<small>register</small></div>
+        <div>
+          <h2>Taxpayer profile → Register ERP</h2>
+          <p>Inside the MyInvois portal, open your <b>Taxpayer Profile</b> (top-right avatar → View Taxpayer Profile).
+            The ERP registration lives there.</p>
+
+          <div class="browser">
+            <div class="bbar">
+              <div class="bdots"><i></i><i></i><i></i></div>
+              <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my Taxpayer Profile</div>
+            </div>
+            <div class="bbody">
+              <div class="mock-menu"><span>Documents</span><span>Reporting</span><span class="on">Profile</span></div>
+              <div class="mock-card">
+                <div class="mock-row"><span>Company</span><span class="v">EXAMPLE SDN BHD</span></div>
+                <div class="mock-row"><span>TIN</span><span class="v">C1234567890</span></div>
+                <div class="mock-row"><span>Registered ERPs</span><span class="v">0</span></div>
+              </div>
+              <div style="position:relative;display:inline-block">
+                <span class="mock-btn ghost">+ Register ERP</span>
+                <div class="chop" style="left:-18px;top:-15px">
+                  <div class="ring"></div>
+                  <div class="n">1</div>
+                  <div class="lbl">this issues your keys</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="caption">“ERP” just means <i>any system that talks to the API</i> your CLI counts. Name it
+            something you'll recognise, e.g. <code class="k">yourcompany-cli</code>. Pick the longest client-secret
+            expiry offered.</p>
+          <div class="note red"><b>Register under the right taxpayer!</b> The keys belong to whoever's profile you're
+            in. If you skip the role switch in step 03 and register from your <i>personal</i> profile, company invoices
+            will fail with <code class="k">authenticated TIN and documents TIN is not matching</code> and you'll have
+            to re-register under the company role.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 4 done"></div>
+      </section>
+
+      <!-- ============ 05 ============ -->
+      <section class="step" data-step="5">
+        <div class="no">05<small>keys</small></div>
+        <div>
+          <h2>Copy the Client ID and Client Secret</h2>
+          <p>After registering, the portal shows your credentials <b>once</b>:</p>
+
+          <div class="browser">
+            <div class="bbar">
+              <div class="bdots"><i></i><i></i><i></i></div>
+              <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my ERP registered ✓</div>
+            </div>
+            <div class="bbody">
+              <div class="mock-title">yourcompany-cli credentials</div>
+              <div class="mock-card" style="position:relative">
+                <div class="mock-row"><span>Client ID</span><span class="v">a1b2c3d4-e5f6-…</span></div>
+                <div class="mock-row"><span>Client Secret</span><span class="v blur">9f8e7d6c5b4a3210ffee</span></div>
+                <div class="chop flip" style="right:-20px;top:20px">
+                  <div class="ring"></div>
+                  <div class="n">1</div>
+                  <div class="lbl">copy both now</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="note red"><b>The secret is shown only this once.</b> If you lose it, you don't recover it you
+            register a new ERP and get a new pair. Sandbox and production pairs are completely separate.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 5 done"></div>
+      </section>
+
+      <!-- ============ 06 ============ -->
+      <section class="step" data-step="6">
+        <div class="no">06<small>configure</small></div>
+        <div>
+          <h2>Generate your <span style="font-family:var(--mono)">~/.myinvois.env</span></h2>
+          <div class="gen">
+            <h3>Credential file builder</h3>
+            <p class="priv">Everything here stays in this page no network calls, nothing stored. View source to
+              verify.</p>
+            <div class="grid">
+              <div><label for="g-id">Client ID</label><input id="g-id" placeholder="a1b2c3d4-…" autocomplete="off">
+              </div>
+              <div><label for="g-secret">Client Secret</label><input id="g-secret" placeholder="paste secret"
+                  autocomplete="off"></div>
+              <div><label for="g-env">Environment</label>
+                <select id="g-env">
+                  <option value="sandbox" selected>sandbox</option>
+                  <option value="prod">prod</option>
+                </select>
+              </div>
+              <div><label for="g-obo">On behalf of (intermediaries only)</label><input id="g-obo"
+                  placeholder="leave empty normally"></div>
+            </div>
+            <label style="margin-top:8px">File content save as <b>~/.myinvois.env</b></label>
+            <div class="code" id="env-out"></div>
+            <label>Or run this in PowerShell (writes the file for you)</label>
+            <div class="code" id="ps-out"></div>
+          </div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 6 done"></div>
+      </section>
+
+      <!-- ============ 07 ============ -->
+      <section class="step" data-step="7">
+        <div class="no">07<small>verify</small></div>
+        <div>
+          <h2>Prove the connection works</h2>
+          <p>From the <code class="k">einvoice</code> repo folder:</p>
+          <div class="code">node skills/myinvois/scripts/myinvois.mjs token</div>
+          <p>Expected: <span class="tag-ok">{ "env": "sandbox", "token": "eyJhbGciOi…(cached)" }</span></p>
+          <p>Then validate your own company's TIN against its BRN this exercises a real business API:</p>
+          <div class="code">node skills/myinvois/scripts/myinvois.mjs validate-tin <span class="y">C1234567890</span>
+            BRN <span class="y">201901234567</span></div>
+          <p>Expected: <span class="tag-ok">"valid": true</span></p>
+          <div class="note">Seeing <code class="k">invalid_client</code>? Wrong environment (sandbox keys against prod
+            or vice-versa) or a typo in the secret. Re-check step 06.</div>
+        </div>
+        <div class="stat"><input type="checkbox" aria-label="Mark step 7 done"></div>
+      </section>
+    </main>
+    <footer class="foot">
+      <span><a href="setup-guide.html">guide hub</a></span>
+      <span>next: <a href="guide-configure.html">② configure once</a> →</span>
+    </footer>
   </div>
-<!-- ============ 01 ============ -->
-  <section class="step" data-step="1">
-    <div class="no">01<small>prepare</small></div>
-    <div>
-      <h2>What you need before starting</h2>
-      <ul>
-        <li><b>Your TIN</b> (Tax Identification Number) — e.g. <code class="k">C1234567890</code> for a company. Don't know it? Check MyTax, or e-Daftar.</li>
-        <li><b>A MyTax account</b> as the company's director or appointed representative. If the company is new to MyTax, the director must register a digital certificate first (guided on the login page).</li>
-        <li><b>Node.js ≥ 18</b> on this machine — for the CLI you'll verify with. Check: <code class="k">node --version</code></li>
-      </ul>
-      <div class="note">Sandbox is a full copy of production with fake data — nothing you submit there is a real tax document. Always start here.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 1 done"></div>
-  </section>
-
-<!-- ============ 02 ============ -->
-  <section class="step" data-step="2">
-    <div class="no">02<small>login</small></div>
-    <div>
-      <h2>Log in to the sandbox MyTax</h2>
-      <p>The sandbox has its own portal — note the <b>preprod-</b> prefix:</p>
-      <div class="url">https://preprod-mytax.hasil.gov.my</div>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my</div></div>
-        <div class="bbody">
-          <div class="mock-title">MyTax — Log Masuk / Login</div>
-          <div class="mock-field"><label>Jenis Pengenalan / ID type</label>
-            <div class="mock-input sel">Identification Card No.&nbsp;</div></div>
-          <div class="mock-field"><label>No. Pengenalan / ID number</label>
-            <div class="mock-input">881212-14-5555</div></div>
-          <div style="position:relative;display:inline-block;margin:6px 0 30px">
-            <span class="mock-btn">Hantar / Submit</span>
-            <div class="chop below" style="left:-16px;top:-13px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">click after filling ID</div></div>
-          </div>
-        </div>
-      </div>
-      <p class="caption">Log in with your personal ID, then verify with your digital certificate password.</p>
-      <div class="note">First time in the sandbox? Your production MyTax account does <b>not</b> carry over automatically — if login fails, use “First Time Login” on the same page to activate your sandbox account with the same ID.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 2 done"></div>
-  </section>
-
-<!-- ============ 03 ============ -->
-  <section class="step" data-step="3">
-    <div class="no">03<small>role</small></div>
-    <div>
-      <h2>Switch to the company role, open MyInvois</h2>
-      <p>You land on the MyTax dashboard as an individual. To act for the company, pick its role first, then open the MyInvois portal.</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod-</b>mytax.hasil.gov.my — Dashboard</div></div>
-        <div class="bbody">
-          <div class="mock-field" style="position:relative;max-width:340px">
-            <label>Peranan / Role</label>
-            <div class="mock-input sel">Directors of the Company — EXAMPLE SDN BHD&nbsp;</div>
-            <div class="chop" style="right:-24px;top:8px;left:auto" ><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">pick company role</div></div>
-          </div>
-          <div style="height:14px"></div>
-          <div class="mock-menu">
-            <span>ezHasil Services</span><span class="on" style="position:relative">MyInvois
-              <div class="chop flip" style="left:-14px;top:-14px"><div class="ring"></div><div class="n">2</div>
-                <div class="lbl">opens the portal</div></div>
-            </span><span>e-Daftar</span><span>Profile</span>
-          </div>
-          <p style="font-size:13px;color:var(--ink-soft)">MyInvois opens in a new tab at
-            <span style="font-family:var(--mono)">preprod.myinvois.hasil.gov.my</span></p>
-        </div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 3 done"></div>
-  </section>
-
-<!-- ============ 04 ============ -->
-  <section class="step" data-step="4">
-    <div class="no">04<small>register</small></div>
-    <div>
-      <h2>Taxpayer profile → Register ERP</h2>
-      <p>Inside the MyInvois portal, open your <b>Taxpayer Profile</b> (top-right avatar → View Taxpayer Profile). The ERP registration lives there.</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my — Taxpayer Profile</div></div>
-        <div class="bbody">
-          <div class="mock-menu"><span>Documents</span><span>Reporting</span><span class="on">Profile</span></div>
-          <div class="mock-card">
-            <div class="mock-row"><span>Company</span><span class="v">EXAMPLE SDN BHD</span></div>
-            <div class="mock-row"><span>TIN</span><span class="v">C1234567890</span></div>
-            <div class="mock-row"><span>Registered ERPs</span><span class="v">0</span></div>
-          </div>
-          <div style="position:relative;display:inline-block">
-            <span class="mock-btn ghost">+ Register ERP</span>
-            <div class="chop" style="left:-18px;top:-15px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">this issues your keys</div></div>
-          </div>
-        </div>
-      </div>
-      <p class="caption">“ERP” just means <i>any system that talks to the API</i> — your CLI counts. Name it something you'll recognise, e.g. <code class="k">yourcompany-cli</code>. Pick the longest client-secret expiry offered.</p>
-      <div class="note red"><b>Register under the right taxpayer!</b> The keys belong to whoever's profile you're in. If you skip the role switch in step 03 and register from your <i>personal</i> profile, company invoices will fail with <code class="k">authenticated TIN and documents TIN is not matching</code> — and you'll have to re-register under the company role.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 4 done"></div>
-  </section>
-
-<!-- ============ 05 ============ -->
-  <section class="step" data-step="5">
-    <div class="no">05<small>keys</small></div>
-    <div>
-      <h2>Copy the Client ID and Client Secret</h2>
-      <p>After registering, the portal shows your credentials <b>once</b>:</p>
-
-      <div class="browser">
-        <div class="bbar"><div class="bdots"><i></i><i></i><i></i></div>
-          <div class="baddr"><b>preprod.</b>myinvois.hasil.gov.my — ERP registered ✓</div></div>
-        <div class="bbody">
-          <div class="mock-title">yourcompany-cli — credentials</div>
-          <div class="mock-card" style="position:relative">
-            <div class="mock-row"><span>Client ID</span><span class="v">a1b2c3d4-e5f6-…</span></div>
-            <div class="mock-row"><span>Client Secret</span><span class="v blur">9f8e7d6c5b4a3210ffee</span></div>
-            <div class="chop flip" style="right:-20px;top:20px"><div class="ring"></div><div class="n">1</div>
-              <div class="lbl">copy both now</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="note red"><b>The secret is shown only this once.</b> If you lose it, you don't recover it — you register a new ERP and get a new pair. Sandbox and production pairs are completely separate.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 5 done"></div>
-  </section>
-
-<!-- ============ 06 ============ -->
-  <section class="step" data-step="6">
-    <div class="no">06<small>configure</small></div>
-    <div>
-      <h2>Generate your <span style="font-family:var(--mono)">~/.myinvois.env</span></h2>
-      <div class="gen">
-        <h3>Credential file builder</h3>
-        <p class="priv">Everything here stays in this page — no network calls, nothing stored. View source to verify.</p>
-        <div class="grid">
-          <div><label for="g-id">Client ID</label><input id="g-id" placeholder="a1b2c3d4-…" autocomplete="off"></div>
-          <div><label for="g-secret">Client Secret</label><input id="g-secret" placeholder="paste secret" autocomplete="off"></div>
-          <div><label for="g-env">Environment</label>
-            <select id="g-env"><option value="sandbox" selected>sandbox</option><option value="prod">prod</option></select></div>
-          <div><label for="g-obo">On behalf of (intermediaries only)</label><input id="g-obo" placeholder="leave empty normally"></div>
-        </div>
-        <label style="margin-top:8px">File content — save as <b>~/.myinvois.env</b></label>
-        <div class="code" id="env-out"></div>
-        <label>Or run this in PowerShell (writes the file for you)</label>
-        <div class="code" id="ps-out"></div>
-      </div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 6 done"></div>
-  </section>
-
-<!-- ============ 07 ============ -->
-  <section class="step" data-step="7">
-    <div class="no">07<small>verify</small></div>
-    <div>
-      <h2>Prove the connection works</h2>
-      <p>From the <code class="k">einvoice</code> repo folder:</p>
-      <div class="code">node skills/myinvois/scripts/myinvois.mjs token</div>
-      <p>Expected: <span class="tag-ok">{ "env": "sandbox", "token": "eyJhbGciOi…(cached)" }</span></p>
-      <p>Then validate your own company's TIN against its BRN — this exercises a real business API:</p>
-      <div class="code">node skills/myinvois/scripts/myinvois.mjs validate-tin <span class="y">C1234567890</span> BRN <span class="y">201901234567</span></div>
-      <p>Expected: <span class="tag-ok">"valid": true</span></p>
-      <div class="note">Seeing <code class="k">invalid_client</code>? Wrong environment (sandbox keys against prod or vice-versa) or a typo in the secret. Re-check step 06.</div>
-    </div>
-    <div class="stat"><input type="checkbox" aria-label="Mark step 7 done"></div>
-  </section>
-  </main>
-  <footer class="foot">
-    <span><a href="setup-guide.html">guide hub</a></span>
-    <span>next: <a href="guide-configure.html">② configure once</a> →</span>
-  </footer>
-</div>
-<script src="skill-snippets.js"></script>
-<script src="guide.js"></script>
-<script>
-const $=id=>document.getElementById(id);
-function envText(){
-  const id=$('g-id').value.trim()||'your-client-id';
-  const sec=$('g-secret').value.trim()||'your-client-secret';
-  const env=$('g-env').value, obo=$('g-obo').value.trim();
-  let t=`MYINVOIS_CLIENT_ID=${id}\nMYINVOIS_CLIENT_SECRET=${sec}\nMYINVOIS_ENV=${env}`;
-  if(obo)t+=`\nMYINVOIS_ONBEHALF=${obo}`;
-  return t;
-}
-function renderEnv(){
-  $('env-out').childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  $('env-out').append(envText());
-  const ps=$('ps-out');
-  ps.childNodes.forEach(n=>{if(n.nodeType===3)n.remove();});
-  ps.append(`@'\n${envText()}\n'@ | Set-Content -Encoding ascii "$HOME\\.myinvois.env"`);
-}
-['g-id','g-secret','g-env','g-obo'].forEach(id=>$(id).addEventListener('input',renderEnv));
-renderEnv();
-</script>
+  <script src="skill-snippets.js"></script>
+  <script src="guide.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    function envText() {
+      const id = $('g-id').value.trim() || 'your-client-id';
+      const sec = $('g-secret').value.trim() || 'your-client-secret';
+      const env = $('g-env').value, obo = $('g-obo').value.trim();
+      let t = `MYINVOIS_CLIENT_ID=${id}\nMYINVOIS_CLIENT_SECRET=${sec}\nMYINVOIS_ENV=${env}`;
+      if (obo) t += `\nMYINVOIS_ONBEHALF=${obo}`;
+      return t;
+    }
+    function renderEnv() {
+      $('env-out').childNodes.forEach(n => { if (n.nodeType === 3) n.remove(); });
+      $('env-out').append(envText());
+      const ps = $('ps-out');
+      ps.childNodes.forEach(n => { if (n.nodeType === 3) n.remove(); });
+      ps.append(`@'\n${envText()}\n'@ | Set-Content -Encoding ascii "$HOME\\.myinvois.env"`);
+    }
+    ['g-id', 'g-secret', 'g-env', 'g-obo'].forEach(id => $(id).addEventListener('input', renderEnv));
+    renderEnv();
+  </script>
 </body>
+
 </html>
